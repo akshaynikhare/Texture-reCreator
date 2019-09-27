@@ -1,0 +1,9 @@
+C:\Users\Admin\Desktop\ImageBoxSample\bin\Debug\ImageBoxSample.exe
+C:\Users\Admin\Desktop\ImageBoxSample\bin\Debug\ImageBoxSample.pdb
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\ImageBoxSample.csprojAssemblyReference.cache
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\ImageBoxSample.MainForm.resources
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\Cyotek.Windows.Forms.Properties.Resources.resources
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\ImageBoxSample.csproj.GenerateResource.cache
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\ImageBoxSample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\ImageBoxSample.exe
+C:\Users\Admin\Desktop\ImageBoxSample\obj\Debug\ImageBoxSample.pdb

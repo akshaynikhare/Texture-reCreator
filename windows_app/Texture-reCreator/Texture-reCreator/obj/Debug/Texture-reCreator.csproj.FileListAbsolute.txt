@@ -1,0 +1,15 @@
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\bin\Debug\Texture-reCreator.exe.config
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\bin\Debug\Texture-reCreator.exe
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\bin\Debug\Texture-reCreator.pdb
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator.csprojAssemblyReference.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\MainWindow.g.cs
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\App.g.cs
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator_MarkupCompile.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator_MarkupCompile.lref
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\MainWindow.baml
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator.g.resources
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture_reCreator.Properties.Resources.resources
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator.csproj.GenerateResource.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator.exe
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Debug\Texture-reCreator.pdb

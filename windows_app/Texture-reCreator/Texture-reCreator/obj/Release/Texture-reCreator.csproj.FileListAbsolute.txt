@@ -1,0 +1,14 @@
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\bin\Release\Texture-reCreator.exe.config
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\bin\Release\Texture-reCreator.exe
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\bin\Release\Texture-reCreator.pdb
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\MainWindow.g.cs
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\App.g.cs
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator_MarkupCompile.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator_MarkupCompile.lref
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\MainWindow.baml
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator.g.resources
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture_reCreator.Properties.Resources.resources
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator.csproj.GenerateResource.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator.exe
+C:\Users\Admin\Documents\GitHub\Texture-reCreator\windows_app\Texture-reCreator\Texture-reCreator\obj\Release\Texture-reCreator.pdb
