@@ -4,6 +4,7 @@
  */
 
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export class ThreePreview {
   constructor(containerId) {
@@ -16,6 +17,7 @@ export class ThreePreview {
     this.scene = null;
     this.camera = null;
     this.renderer = null;
+    this.controls = null;
     this.mesh = null;
     this.texture = null;
     this.animationId = null;
@@ -32,8 +34,8 @@ export class ThreePreview {
     // Camera setup
     const aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    this.camera.position.set(0, 0, 5);
-    this.camera.lookAt(0, 0, 0);
+    this.camera.position.set(0, 2, 6); // Higher and further back to see table
+    this.camera.lookAt(0, -0.5, 0); // Look slightly down
 
     // Renderer setup
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -42,6 +44,14 @@ export class ThreePreview {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.container.appendChild(this.renderer.domElement);
+
+    // Orbit Controls - allows dragging to rotate view
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true; // Smooth movement
+    this.controls.dampingFactor = 0.05;
+    this.controls.enableZoom = true;
+    this.controls.enablePan = true;
+    this.controls.target.set(0, -0.5, 0); // Look at center of scene
 
     // Lighting
     this.setupLighting();
@@ -102,86 +112,96 @@ export class ThreePreview {
   }
 
   createCloth() {
-    // Remove existing mesh and table
+    // Remove existing mesh
     if (this.mesh) {
       this.scene.remove(this.mesh);
       this.mesh.geometry.dispose();
       this.mesh.material.dispose();
     }
 
-    // Remove old table if exists
-    const oldTable = this.scene.children.find(
-      child => child instanceof THREE.Mesh && child.geometry instanceof THREE.BoxGeometry
+    // Remove all old table parts (top and legs)
+    const objectsToRemove = this.scene.children.filter(
+      child => child instanceof THREE.Mesh &&
+      (child.geometry instanceof THREE.BoxGeometry ||
+       child.geometry instanceof THREE.CylinderGeometry)
     );
-    if (oldTable) {
-      this.scene.remove(oldTable);
-      oldTable.geometry.dispose();
-      oldTable.material.dispose();
-    }
+    objectsToRemove.forEach(obj => {
+      this.scene.remove(obj);
+      obj.geometry.dispose();
+      if (Array.isArray(obj.material)) {
+        obj.material.forEach(mat => mat.dispose());
+      } else {
+        obj.material.dispose();
+      }
+    });
 
     // Create beautiful white wooden table
-    const tableWidth = 5;
-    const tableDepth = 4;
-    const tableHeight = 0.15;
-    const legHeight = 1.2;
+    const tableWidth = 4;
+    const tableDepth = 3;
+    const tableHeight = 0.1;
+    const legHeight = 1.5;
+    const tableTopY = -0.3; // Position table top higher to be more visible
 
-    // Table top - white wood
+    // Table top - white wood with grain
     const tableTopGeometry = new THREE.BoxGeometry(tableWidth, tableHeight, tableDepth);
     const tableTopMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5f5dc, // Beige/cream white
-      roughness: 0.6,
-      metalness: 0.1,
+      color: 0xfaf8f0, // Creamy white wood
+      roughness: 0.8,
+      metalness: 0.05,
     });
     const tableTop = new THREE.Mesh(tableTopGeometry, tableTopMaterial);
-    tableTop.position.y = -legHeight;
+    tableTop.position.y = tableTopY;
     tableTop.receiveShadow = true;
     tableTop.castShadow = true;
     this.scene.add(tableTop);
 
-    // Table legs - 4 corners
-    const legGeometry = new THREE.CylinderGeometry(0.08, 0.08, legHeight, 16);
+    // Table legs - 4 corners, cylindrical wooden legs
+    const legRadius = 0.06;
+    const legGeometry = new THREE.CylinderGeometry(legRadius, legRadius, legHeight, 16);
     const legMaterial = new THREE.MeshStandardMaterial({
-      color: 0xe8e8e8, // Light wood color
-      roughness: 0.7,
-      metalness: 0.1,
+      color: 0xf0ead6, // Slightly darker wood for legs
+      roughness: 0.8,
+      metalness: 0.05,
     });
 
+    const legInset = 0.25; // Distance from edge
     const legPositions = [
-      { x: tableWidth / 2 - 0.3, z: tableDepth / 2 - 0.3 },
-      { x: -tableWidth / 2 + 0.3, z: tableDepth / 2 - 0.3 },
-      { x: tableWidth / 2 - 0.3, z: -tableDepth / 2 + 0.3 },
-      { x: -tableWidth / 2 + 0.3, z: -tableDepth / 2 + 0.3 },
+      { x: tableWidth / 2 - legInset, z: tableDepth / 2 - legInset },
+      { x: -tableWidth / 2 + legInset, z: tableDepth / 2 - legInset },
+      { x: tableWidth / 2 - legInset, z: -tableDepth / 2 + legInset },
+      { x: -tableWidth / 2 + legInset, z: -tableDepth / 2 + legInset },
     ];
 
     legPositions.forEach(pos => {
       const leg = new THREE.Mesh(legGeometry, legMaterial.clone());
-      leg.position.set(pos.x, -legHeight - legHeight / 2, pos.z);
+      leg.position.set(pos.x, tableTopY - tableHeight / 2 - legHeight / 2, pos.z);
       leg.castShadow = true;
       leg.receiveShadow = true;
       this.scene.add(leg);
     });
 
-    // Create cloth plane
-    const clothWidth = 3;
-    const clothHeight = 3;
-    const segments = 32;
+    // Create cloth plane with texture
+    const clothWidth = 2.5;
+    const clothHeight = 2.5;
+    const segments = 40;
 
     const geometry = new THREE.PlaneGeometry(clothWidth, clothHeight, segments, segments);
 
-    // Apply cloth-like deformation
+    // Apply cloth-like deformation - draping over table
     const positions = geometry.attributes.position;
     for (let i = 0; i < positions.count; i++) {
       const x = positions.getX(i);
       const y = positions.getY(i);
 
-      // Create draping effect
+      // Create gentle draping effect
       const distFromCenter = Math.sqrt(x * x + y * y);
-      const sag = Math.pow(distFromCenter / 2, 2) * 0.3;
+      const sag = Math.pow(distFromCenter / 1.5, 2) * 0.15;
       positions.setZ(i, -sag);
 
-      // Add some wrinkles
-      const wrinkle = Math.sin(x * 3) * Math.cos(y * 3) * 0.05;
-      positions.setZ(i, positions.getZ(i) + wrinkle);
+      // Add subtle wrinkles and folds
+      const wrinkle1 = Math.sin(x * 4) * Math.cos(y * 4) * 0.03;
+      const wrinkle2 = Math.sin(x * 7 + y * 5) * 0.02;
+      positions.setZ(i, positions.getZ(i) + wrinkle1 + wrinkle2);
     }
 
     geometry.computeVertexNormals();
@@ -189,13 +209,14 @@ export class ThreePreview {
     const material = new THREE.MeshStandardMaterial({
       map: this.texture,
       side: THREE.DoubleSide,
-      roughness: 0.7,
+      roughness: 0.85,
       metalness: 0.0,
     });
 
     this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh.position.y = -0.5;
-    this.mesh.rotation.x = -Math.PI / 6;
+    // Position cloth just above table surface
+    this.mesh.position.y = tableTopY + tableHeight / 2 + 0.05;
+    this.mesh.rotation.x = -Math.PI / 2.5; // Tilt for better view
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);
@@ -229,16 +250,22 @@ export class ThreePreview {
   setMode(mode) {
     this.currentMode = mode;
 
-    // Clear table if switching from cloth mode
+    // Clear table parts if switching from cloth mode
     if (mode !== 'cloth') {
-      const table = this.scene.children.find(
-        child => child instanceof THREE.Mesh && child.geometry instanceof THREE.BoxGeometry
+      const objectsToRemove = this.scene.children.filter(
+        child => child instanceof THREE.Mesh &&
+        (child.geometry instanceof THREE.BoxGeometry ||
+         child.geometry instanceof THREE.CylinderGeometry)
       );
-      if (table) {
-        this.scene.remove(table);
-        table.geometry.dispose();
-        table.material.dispose();
-      }
+      objectsToRemove.forEach(obj => {
+        this.scene.remove(obj);
+        obj.geometry.dispose();
+        if (Array.isArray(obj.material)) {
+          obj.material.forEach(mat => mat.dispose());
+        } else {
+          obj.material.dispose();
+        }
+      });
     }
 
     if (mode === 'sphere') {
@@ -251,15 +278,12 @@ export class ThreePreview {
   animate() {
     this.animationId = requestAnimationFrame(() => this.animate());
 
-    // Rotate the object
-    if (this.mesh) {
-      if (this.currentMode === 'sphere') {
-        this.mesh.rotation.y += 0.005;
-      } else if (this.currentMode === 'cloth') {
-        // Slight rotation for cloth
-        this.mesh.rotation.z = Math.sin(Date.now() * 0.001) * 0.05;
-      }
+    // Update orbit controls (for smooth damping)
+    if (this.controls) {
+      this.controls.update();
     }
+
+    // No auto-rotation - user can drag to rotate
 
     this.renderer.render(this.scene, this.camera);
   }
@@ -278,6 +302,10 @@ export class ThreePreview {
   dispose() {
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
+    }
+
+    if (this.controls) {
+      this.controls.dispose();
     }
 
     if (this.mesh) {

@@ -14,7 +14,7 @@ export class UIControls {
     this.patternRadios = document.getElementsByName('type_s');
     this.downloadLink = document.getElementById('dlnk');
     this.previewImage = document.getElementById('cvs1');
-    this.isLinked = true;
+    this.isLinked = false; // Start unlinked (checkbox unchecked)
 
     this.init();
   }
@@ -41,7 +41,7 @@ export class UIControls {
 
     // Link/unlink checkbox
     this.linkCheckbox.addEventListener('change', () => {
-      this.isLinked = !this.linkCheckbox.checked;
+      this.isLinked = this.linkCheckbox.checked; // Checked = linked
       this.updateLinkIcon();
       if (this.isLinked) {
         this.widthSlider.value = this.heightSlider.value;
@@ -95,6 +95,18 @@ export class UIControls {
     const width = parseInt(this.widthSlider.value) * 50;
     const height = parseInt(this.heightSlider.value) * 50;
     this.textureManager.setTileSize(width, height);
+    // Update preview image and background after tile size change
+    this.updatePreviewImage();
+    this.updateThreePreview();
+    // Update background if in background mode
+    if (this.app && this.app.currentPreviewMode === 'background') {
+      const previewArea = document.getElementById('previewArea');
+      if (previewArea) {
+        previewArea.style.backgroundImage = `url('${this.textureManager.export()}')`;
+        previewArea.style.backgroundSize = `${width}px ${height}px`;
+        previewArea.style.backgroundRepeat = 'repeat';
+      }
+    }
   }
 
   updatePreviewImage() {
