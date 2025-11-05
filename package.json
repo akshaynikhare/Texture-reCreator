@@ -1,0 +1,31 @@
+{
+  "name": "texture-recreator",
+  "version": "2.0.0",
+  "description": "Modern online tool to check image tiling for 3D texture rendering with seamless pattern generation",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js",
+    "format": "prettier --write \"src/**/*.{js,css,html}\""
+  },
+  "keywords": [
+    "texture",
+    "3d",
+    "tiling",
+    "seamless",
+    "canvas",
+    "image-processing"
+  ],
+  "author": "Akshay Nikhare",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

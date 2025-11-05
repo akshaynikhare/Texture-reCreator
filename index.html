@@ -1,81 +1,140 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Texture reCreator</title>
-    <link rel="stylesheet" href="css\style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Modern online tool to check image tiling for 3D texture rendering with seamless pattern generation" />
+    <meta name="keywords" content="texture, 3d, tiling, seamless, canvas, image-processing" />
+    <meta name="author" content="Akshay Nikhare" />
+    <title>Texture reCreator - Seamless Texture Tiling Tool</title>
 
-    <!--GOOGLESTATS
-	<script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-18989804-2']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();</script>
-	GOOGLESTATS-->
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="/img/sam-1.jpg" />
   </head>
   <body>
     <div class="container">
       <div class="content" id="container">
- 
-        <h2>Texture reCreator</h2>
-        <small>
-          <a href="http://akshay-nikhare.appspot.com/" target="_blank"
-            >© akshay nikhare</a
-          >
-          | Tested on Chrome & Firefox</small
-        ><br />
-        <br />
-        Quick tool to test & check seamless texture<br />
-        Drag and drop local image file anywhere in page
-        <br />
-        <br />
-        <div class="setup">
-          <div>Tile width</div>
-          <div>
-            <input
-              id="setWidthSlider"
-              type="range"
-              name="points"
-              min="1"
-              max="20"
-              value="1"
-            />
-          </div>
+        <header class="app-header">
+          <h1>Texture reCreator</h1>
+          <p class="subtitle">Test & create seamless texture patterns</p>
+          <small class="credits">
+            <a href="http://akshay-nikhare.appspot.com/" target="_blank" rel="noopener noreferrer">
+              © Akshay Nikhare
+            </a>
+          </small>
+        </header>
 
-          <div class="linkage">
-            <input type="checkbox" id="cb1" />
-            <label for="cb1"><div id="img"></div></label>
+        <section class="instructions">
+          <p>
+            <strong>Quick Start:</strong> Drag and drop an image file anywhere on the page
+          </p>
+        </section>
+
+        <section class="controls-section">
+          <h2 class="section-title">Tile Settings</h2>
+
+          <div class="setup">
+            <div class="control-label">Width</div>
+            <div class="slider-container">
+              <input
+                id="setWidthSlider"
+                type="range"
+                name="tile-width"
+                min="1"
+                max="20"
+                value="1"
+                aria-label="Tile width"
+              />
+              <span class="slider-value" id="width-value">1</span>
+            </div>
+
+            <div class="linkage">
+              <input type="checkbox" id="cb1" aria-label="Link width and height" />
+              <label for="cb1">
+                <div id="img" class="link-icon"></div>
+              </label>
+            </div>
+
+            <div class="control-label">Height</div>
+            <div class="slider-container">
+              <input
+                id="setheightSlider"
+                type="range"
+                name="tile-height"
+                min="1"
+                max="20"
+                value="1"
+                aria-label="Tile height"
+              />
+              <span class="slider-value" id="height-value">1</span>
+            </div>
           </div>
-          <div>Tile height</div>
-          <div>
-            <input
-              id="setheightSlider"
-              type="range"
-              name="points"
-              min="1"
-              max="20"
-              value="1"
-            />
-          </div>
-        </div>
-        
-        
-        <div class="pvu">
-         
+        </section>
+
+        <section class="pattern-section">
+          <h2 class="section-title">Tiling Pattern</h2>
+
+          <div class="pvu">
             <div class="p1">
-              <input checked="checked" id="t1" type="radio" name="type_s" value="false" />
-              <label class="type-cc t1_id" for="t1"></label>
+              <input
+                checked="checked"
+                id="t1"
+                type="radio"
+                name="type_s"
+                value="false"
+                aria-label="Standard tiling pattern"
+              />
+              <label class="type-cc t1_id" for="t1">
+                <span class="radio-label">Standard</span>
+              </label>
             </div>
-            <div class="p2">
-              <input  id="t2"  type="radio"  name="type_s"   value="true"       />
-              <label class="type-cc t2_id" for="t2"></label>
-            </div>
-            <div class="p3">
-                <a id="dlnk" download>
-                    <img id="cvs1"> 
-                    <label> download</label>
-                </a>
-            </div>
-        </div>
 
-        <canvas id="cvs"></canvas>
+            <div class="p2">
+              <input
+                id="t2"
+                type="radio"
+                name="type_s"
+                value="true"
+                aria-label="Mirror tiling pattern"
+              />
+              <label class="type-cc t2_id" for="t2">
+                <span class="radio-label">Mirror</span>
+              </label>
+            </div>
+
+            <div class="p3">
+              <h3 class="preview-title">Preview & Download</h3>
+              <a id="dlnk" download="texture.jpg" class="download-link">
+                <img id="cvs1" alt="Texture preview" />
+                <span class="download-text">
+                  <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <canvas id="cvs" style="display: none;"></canvas>
+
+        <footer class="app-footer">
+          <p>Tested on Chrome, Firefox, Safari & Edge</p>
+        </footer>
       </div>
     </div>
 
-   <script src="js\script.js"></script>
+    <!-- Loading indicator -->
+    <div class="loading-indicator" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
