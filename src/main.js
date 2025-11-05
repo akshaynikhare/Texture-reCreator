@@ -39,6 +39,9 @@ class TextureReCreatorApp {
         await this.loadTexture(dataURL);
       });
 
+      // Initialize file input button
+      this.initFileInput();
+
       // Load default texture
       await this.loadDefaultTexture();
 
@@ -49,10 +52,33 @@ class TextureReCreatorApp {
     }
   }
 
+  initFileInput() {
+    const fileInput = document.getElementById('fileInput');
+    const selectBtn = document.getElementById('selectImageBtn');
+
+    if (selectBtn && fileInput) {
+      selectBtn.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (file && file.type.match('image.*')) {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            await this.loadTexture(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  }
+
   async loadTexture(dataURL) {
     try {
       await this.textureManager.loadImage(dataURL);
       this.controls.updatePreviewImage();
+      this.controls.updateSliderValues();
       document.body.style.background = '#eee';
     } catch (error) {
       console.error('Failed to load texture:', error);
@@ -68,6 +94,7 @@ class TextureReCreatorApp {
       // Set default tile size
       document.getElementById('setWidthSlider').value = 3;
       document.getElementById('setheightSlider').value = 3;
+      this.controls.updateSliderValues();
       this.controls.updateTileSize();
     } catch (error) {
       console.warn('Could not load default texture:', error);

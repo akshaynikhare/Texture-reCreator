@@ -48,19 +48,10 @@ export class CanvasRenderer {
 
     if (useMirroring) {
       // Mirror pattern for seamless textures
-      this.mirrorImage(this.ctx, image, 0, 0, image.width, image.height, false, false);
-      this.mirrorImage(this.ctx, image, image.width, 0, image.width, image.height, true, false);
-      this.mirrorImage(this.ctx, image, 0, image.height, image.width, image.height, false, true);
-      this.mirrorImage(
-        this.ctx,
-        image,
-        image.width,
-        image.height,
-        image.width,
-        image.height,
-        true,
-        true
-      );
+      this.mirrorImage(image, 0, 0, image.width, image.height, false, false);
+      this.mirrorImage(image, image.width, 0, image.width, image.height, true, false);
+      this.mirrorImage(image, 0, image.height, image.width, image.height, false, true);
+      this.mirrorImage(image, image.width, image.height, image.width, image.height, true, true);
     } else {
       // Simple tiling pattern
       this.ctx.drawImage(image, 0, 0, image.width, image.height);

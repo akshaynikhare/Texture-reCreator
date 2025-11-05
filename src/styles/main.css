@@ -150,6 +150,37 @@ h1 {
 .instructions p {
   font-size: 0.9rem;
   color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.select-image-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.select-image-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.select-image-btn:active {
+  transform: translateY(0);
+}
+
+.select-image-btn svg {
+  flex-shrink: 0;
 }
 
 /* Sections */

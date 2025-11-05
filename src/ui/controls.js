@@ -26,6 +26,7 @@ export class UIControls {
       if (this.isLinked) {
         this.heightSlider.value = this.widthSlider.value;
       }
+      this.updateSliderValues();
       debouncedUpdate();
     });
 
@@ -33,6 +34,7 @@ export class UIControls {
       if (this.isLinked) {
         this.widthSlider.value = this.heightSlider.value;
       }
+      this.updateSliderValues();
       debouncedUpdate();
     });
 
@@ -41,22 +43,35 @@ export class UIControls {
       this.isLinked = !this.linkCheckbox.checked;
       if (this.isLinked) {
         this.widthSlider.value = this.heightSlider.value;
+        this.updateSliderValues();
         this.updateTileSize();
       }
     });
 
     // Pattern type radio buttons
     this.patternRadios.forEach((radio) => {
-      radio.addEventListener('change', () => {
+      radio.addEventListener('change', async () => {
         const useMirroring = radio.value === 'true';
-        this.textureManager.setTilingPattern(useMirroring);
+        await this.textureManager.setTilingPattern(useMirroring);
+        this.updatePreviewImage();
       });
     });
 
     // Download functionality
     this.previewImage.addEventListener('click', () => {
-      this.downloadLink.href = this.previewImage.src;
+      const dataURL = this.textureManager.export();
+      this.downloadLink.href = dataURL;
     });
+
+    // Initialize slider values
+    this.updateSliderValues();
+  }
+
+  updateSliderValues() {
+    const widthValueEl = document.getElementById('width-value');
+    const heightValueEl = document.getElementById('height-value');
+    if (widthValueEl) widthValueEl.textContent = this.widthSlider.value;
+    if (heightValueEl) heightValueEl.textContent = this.heightSlider.value;
   }
 
   updateTileSize() {
