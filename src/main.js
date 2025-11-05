@@ -81,7 +81,7 @@ class TextureReCreatorApp {
   }
 
   initPreviewModes() {
-    const modeButtons = document.querySelectorAll('.mode-btn');
+    const modeButtons = document.querySelectorAll('.mode-option');
 
     modeButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -98,22 +98,34 @@ class TextureReCreatorApp {
   setPreviewMode(mode) {
     this.currentPreviewMode = mode;
     const previewInfo = document.getElementById('previewInfo');
+    const previewArea = document.getElementById('previewArea');
 
     if (mode === 'background') {
-      // Hide 3D preview, show background tiling
+      // Hide 3D preview, show background tiling on preview area
       if (this.threePreview) {
         this.threePreview.dispose();
         this.threePreview = null;
       }
       document.getElementById('threejs-preview').style.display = 'none';
-      document.body.style.backgroundImage = `url('${this.textureManager.export()}')`;
+
+      // Apply background to preview area instead of body
+      if (previewArea) {
+        previewArea.style.backgroundImage = `url('${this.textureManager.export()}')`;
+        previewArea.style.backgroundSize = `${this.textureManager.tileWidth}px ${this.textureManager.tileHeight}px`;
+        previewArea.style.backgroundRepeat = 'repeat';
+      }
+
       if (previewInfo) {
         previewInfo.textContent = 'Background tiling mode - See the texture repeat seamlessly';
       }
     } else {
       // Show 3D preview
       document.getElementById('threejs-preview').style.display = 'block';
-      document.body.style.backgroundImage = 'none';
+
+      // Remove background from preview area
+      if (previewArea) {
+        previewArea.style.backgroundImage = 'none';
+      }
 
       if (!this.threePreview) {
         this.threePreview = new ThreePreview('threejs-preview');
@@ -143,9 +155,13 @@ class TextureReCreatorApp {
       this.controls.updateSliderValues();
 
       // Update preview based on current mode
+      const previewArea = document.getElementById('previewArea');
       if (this.currentPreviewMode === 'background') {
-        document.body.style.background = '#eee';
-        document.body.style.backgroundImage = `url('${this.textureManager.export()}')`;
+        if (previewArea) {
+          previewArea.style.backgroundImage = `url('${this.textureManager.export()}')`;
+          previewArea.style.backgroundSize = `${this.textureManager.tileWidth}px ${this.textureManager.tileHeight}px`;
+          previewArea.style.backgroundRepeat = 'repeat';
+        }
       } else if (this.threePreview) {
         const textureDataURL = this.textureManager.export();
         this.threePreview.updateTexture(textureDataURL);

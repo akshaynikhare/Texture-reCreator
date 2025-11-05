@@ -102,24 +102,64 @@ export class ThreePreview {
   }
 
   createCloth() {
-    // Remove existing mesh
+    // Remove existing mesh and table
     if (this.mesh) {
       this.scene.remove(this.mesh);
       this.mesh.geometry.dispose();
       this.mesh.material.dispose();
     }
 
-    // Create table
-    const tableGeometry = new THREE.BoxGeometry(4, 0.1, 3);
-    const tableMaterial = new THREE.MeshStandardMaterial({
-      color: 0x8b4513,
-      roughness: 0.8,
-      metalness: 0.2,
+    // Remove old table if exists
+    const oldTable = this.scene.children.find(
+      child => child instanceof THREE.Mesh && child.geometry instanceof THREE.BoxGeometry
+    );
+    if (oldTable) {
+      this.scene.remove(oldTable);
+      oldTable.geometry.dispose();
+      oldTable.material.dispose();
+    }
+
+    // Create beautiful white wooden table
+    const tableWidth = 5;
+    const tableDepth = 4;
+    const tableHeight = 0.15;
+    const legHeight = 1.2;
+
+    // Table top - white wood
+    const tableTopGeometry = new THREE.BoxGeometry(tableWidth, tableHeight, tableDepth);
+    const tableTopMaterial = new THREE.MeshStandardMaterial({
+      color: 0xf5f5dc, // Beige/cream white
+      roughness: 0.6,
+      metalness: 0.1,
     });
-    const table = new THREE.Mesh(tableGeometry, tableMaterial);
-    table.position.y = -1.5;
-    table.receiveShadow = true;
-    this.scene.add(table);
+    const tableTop = new THREE.Mesh(tableTopGeometry, tableTopMaterial);
+    tableTop.position.y = -legHeight;
+    tableTop.receiveShadow = true;
+    tableTop.castShadow = true;
+    this.scene.add(tableTop);
+
+    // Table legs - 4 corners
+    const legGeometry = new THREE.CylinderGeometry(0.08, 0.08, legHeight, 16);
+    const legMaterial = new THREE.MeshStandardMaterial({
+      color: 0xe8e8e8, // Light wood color
+      roughness: 0.7,
+      metalness: 0.1,
+    });
+
+    const legPositions = [
+      { x: tableWidth / 2 - 0.3, z: tableDepth / 2 - 0.3 },
+      { x: -tableWidth / 2 + 0.3, z: tableDepth / 2 - 0.3 },
+      { x: tableWidth / 2 - 0.3, z: -tableDepth / 2 + 0.3 },
+      { x: -tableWidth / 2 + 0.3, z: -tableDepth / 2 + 0.3 },
+    ];
+
+    legPositions.forEach(pos => {
+      const leg = new THREE.Mesh(legGeometry, legMaterial.clone());
+      leg.position.set(pos.x, -legHeight - legHeight / 2, pos.z);
+      leg.castShadow = true;
+      leg.receiveShadow = true;
+      this.scene.add(leg);
+    });
 
     // Create cloth plane
     const clothWidth = 3;
