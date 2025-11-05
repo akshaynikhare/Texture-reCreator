@@ -1,0 +1,86 @@
+/**
+ * Theme styles - Dark mode support
+ */
+
+/* Dark Theme Colors */
+[data-theme='dark'] {
+  --bg-primary: #1a202c;
+  --bg-secondary: #2d3748;
+  --bg-glass: rgba(45, 55, 72, 0.85);
+  --text-primary: #f7fafc;
+  --text-secondary: #e2e8f0;
+  --text-muted: #a0aec0;
+  --accent-primary: #63b3ed;
+  --accent-hover: #4299e1;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Dark mode specific adjustments */
+[data-theme='dark'] .instructions {
+  background: linear-gradient(135deg, rgba(99, 179, 237, 0.15), rgba(102, 126, 234, 0.15));
+}
+
+[data-theme='dark'] .radio-label {
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] input[type='range'] {
+  background: linear-gradient(
+    to right,
+    var(--accent-primary) 0%,
+    rgba(255, 255, 255, 0.1) 0%
+  );
+}
+
+[data-theme='dark'] .error-message {
+  background: #fc8181;
+  color: #1a202c;
+}
+
+/* Smooth theme transition */
+body,
+.content,
+.theme-toggle,
+h1,
+.subtitle,
+.credits,
+.section-title,
+.control-label,
+input[type='range'],
+.type-cc,
+.download-link {
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

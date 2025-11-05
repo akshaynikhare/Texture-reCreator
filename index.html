@@ -1,81 +1,218 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Texture reCreator</title>
-    <link rel="stylesheet" href="css\style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Modern online tool to check image tiling for 3D texture rendering with seamless pattern generation" />
+    <meta name="keywords" content="texture, 3d, tiling, seamless, canvas, image-processing" />
+    <meta name="author" content="Akshay Nikhare" />
+    <title>Texture reCreator - Seamless Texture Tiling Tool</title>
 
-    <!--GOOGLESTATS
-	<script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-18989804-2']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();</script>
-	GOOGLESTATS-->
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/theme.css" />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="./img/sam-1.jpg" />
   </head>
   <body>
-    <div class="container">
-      <div class="content" id="container">
- 
-        <h2>Texture reCreator</h2>
-        <small>
-          <a href="http://akshay-nikhare.appspot.com/" target="_blank"
-            >© akshay nikhare</a
-          >
-          | Tested on Chrome & Firefox</small
-        ><br />
-        <br />
-        Quick tool to test & check seamless texture<br />
-        Drag and drop local image file anywhere in page
-        <br />
-        <br />
-        <div class="setup">
-          <div>Tile width</div>
-          <div>
-            <input
-              id="setWidthSlider"
-              type="range"
-              name="points"
-              min="1"
-              max="20"
-              value="1"
-            />
-          </div>
+    <!-- Split Screen Layout -->
+    <div class="app-layout">
+      <!-- Left Sidebar - Controls (20%) -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <!-- Header -->
+          <header class="sidebar-header">
+            <h1>Texture reCreator</h1>
+            <p class="subtitle">Seamless Texture Tool</p>
+          </header>
 
-          <div class="linkage">
-            <input type="checkbox" id="cb1" />
-            <label for="cb1"><div id="img"></div></label>
-          </div>
-          <div>Tile height</div>
-          <div>
-            <input
-              id="setheightSlider"
-              type="range"
-              name="points"
-              min="1"
-              max="20"
-              value="1"
-            />
+          <!-- Image Upload Section -->
+          <section class="control-group">
+            <h2 class="group-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              Image
+            </h2>
+            <button id="selectImageBtn" class="btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              Upload Image
+            </button>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+            <p class="hint">Or drag & drop anywhere</p>
+          </section>
+
+          <!-- Tile Settings -->
+          <section class="control-group">
+            <h2 class="group-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+              Tile Settings
+            </h2>
+
+            <div class="control-item">
+              <label class="control-label">
+                Width
+                <span class="control-value" id="width-value">3</span>
+              </label>
+              <input
+                id="setWidthSlider"
+                type="range"
+                min="1"
+                max="20"
+                value="3"
+                class="slider"
+              />
+            </div>
+
+            <div class="control-item">
+              <label class="control-label">
+                Height
+                <span class="control-value" id="height-value">3</span>
+              </label>
+              <input
+                id="setheightSlider"
+                type="range"
+                min="1"
+                max="20"
+                value="3"
+                class="slider"
+              />
+            </div>
+
+            <div class="link-control">
+              <input type="checkbox" id="cb1" />
+              <label for="cb1" class="link-button">
+                <img src="./img/link_a.png" class="link-icon" id="linkIcon" alt="Link" />
+                <span>Link Dimensions</span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Tiling Pattern -->
+          <section class="control-group">
+            <h2 class="group-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+              Pattern Type
+            </h2>
+
+            <div class="pattern-options">
+              <div class="pattern-option">
+                <input type="radio" id="t1" name="type_s" value="false" checked />
+                <label for="t1">
+                  <img src="./img/t1.png" alt="Standard" />
+                  <span>Standard</span>
+                </label>
+              </div>
+
+              <div class="pattern-option">
+                <input type="radio" id="t2" name="type_s" value="true" />
+                <label for="t2">
+                  <img src="./img/t2.png" alt="Mirror" />
+                  <span>Mirror</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Preview Mode -->
+          <section class="control-group">
+            <h2 class="group-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+              Preview Mode
+            </h2>
+
+            <div class="mode-options">
+              <button class="mode-option active" data-mode="background">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+                <span>Background</span>
+              </button>
+
+              <button class="mode-option" data-mode="sphere">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                </svg>
+                <span>Sphere</span>
+              </button>
+
+              <button class="mode-option" data-mode="cloth">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11M18 10v11"/>
+                </svg>
+                <span>Cloth</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Download Section -->
+          <section class="control-group">
+            <h2 class="group-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download
+            </h2>
+            <a id="dlnk" download="texture.jpg" class="btn-download">
+              <img id="cvs1" alt="Preview" />
+              <span>Download Texture</span>
+            </a>
+          </section>
+
+          <!-- Footer -->
+          <footer class="sidebar-footer">
+            <p>
+              <a href="http://akshay-nikhare.appspot.com/" target="_blank" rel="noopener">
+                © Akshay Nikhare
+              </a>
+            </p>
+          </footer>
+        </div>
+      </aside>
+
+      <!-- Right Preview Area (80%) -->
+      <main class="preview-area" id="previewArea">
+        <div class="preview-wrapper">
+          <!-- 3D Preview Container -->
+          <div id="threejs-preview" class="threejs-preview" style="display: none;"></div>
+
+          <!-- Preview Info Overlay -->
+          <div class="preview-info-overlay">
+            <p id="previewInfo">Background tiling mode - Upload an image to see it tile</p>
           </div>
         </div>
-        
-        
-        <div class="pvu">
-         
-            <div class="p1">
-              <input checked="checked" id="t1" type="radio" name="type_s" value="false" />
-              <label class="type-cc t1_id" for="t1"></label>
-            </div>
-            <div class="p2">
-              <input  id="t2"  type="radio"  name="type_s"   value="true"       />
-              <label class="type-cc t2_id" for="t2"></label>
-            </div>
-            <div class="p3">
-                <a id="dlnk" download>
-                    <img id="cvs1"> 
-                    <label> download</label>
-                </a>
-            </div>
-        </div>
-
-        <canvas id="cvs"></canvas>
-      </div>
+      </main>
     </div>
 
-   <script src="js\script.js"></script>
+    <!-- Hidden Canvas -->
+    <canvas id="cvs" style="display: none;"></canvas>
+
+    <!-- Loading indicator -->
+    <div class="loading-indicator" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
