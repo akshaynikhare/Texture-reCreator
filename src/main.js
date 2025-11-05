@@ -7,6 +7,7 @@ import { TextureManager } from './core/textureManager.js';
 import { DragDropHandler } from './ui/dragDrop.js';
 import { UIControls } from './ui/controls.js';
 import { ThemeManager } from './ui/themeManager.js';
+import { ThreePreview } from './ui/threePreview.js';
 import { toDataURL } from './utils/imageLoader.js';
 
 class TextureReCreatorApp {
@@ -31,8 +32,8 @@ class TextureReCreatorApp {
       // Initialize texture manager
       this.textureManager = new TextureManager(this.canvas, this.previewImage);
 
-      // Initialize UI controls
-      this.controls = new UIControls(this.textureManager);
+      // Initialize UI controls (pass app reference for 3D preview updates)
+      this.controls = new UIControls(this.textureManager, this);
 
       // Initialize drag and drop
       this.dragDropHandler = new DragDropHandler(document.body, async (dataURL) => {
@@ -41,6 +42,11 @@ class TextureReCreatorApp {
 
       // Initialize file input button
       this.initFileInput();
+
+      // Initialize 3D preview
+      this.currentPreviewMode = 'background';
+      this.threePreview = null;
+      this.initPreviewModes();
 
       // Load default texture
       await this.loadDefaultTexture();
@@ -74,12 +80,76 @@ class TextureReCreatorApp {
     }
   }
 
+  initPreviewModes() {
+    const modeButtons = document.querySelectorAll('.mode-btn');
+
+    modeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        this.setPreviewMode(mode);
+
+        // Update active button
+        modeButtons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  }
+
+  setPreviewMode(mode) {
+    this.currentPreviewMode = mode;
+    const previewInfo = document.getElementById('previewInfo');
+
+    if (mode === 'background') {
+      // Hide 3D preview, show background tiling
+      if (this.threePreview) {
+        this.threePreview.dispose();
+        this.threePreview = null;
+      }
+      document.getElementById('threejs-preview').style.display = 'none';
+      document.body.style.backgroundImage = `url('${this.textureManager.export()}')`;
+      if (previewInfo) {
+        previewInfo.textContent = 'Background tiling mode - See the texture repeat seamlessly';
+      }
+    } else {
+      // Show 3D preview
+      document.getElementById('threejs-preview').style.display = 'block';
+      document.body.style.backgroundImage = 'none';
+
+      if (!this.threePreview) {
+        this.threePreview = new ThreePreview('threejs-preview');
+      }
+
+      this.threePreview.setMode(mode);
+
+      if (this.textureManager.renderer && this.textureManager.renderer.currentImage) {
+        const dataURL = this.textureManager.export();
+        this.threePreview.updateTexture(dataURL);
+      }
+
+      if (previewInfo) {
+        if (mode === 'sphere') {
+          previewInfo.textContent = '3D Sphere preview - Rotating sphere with your texture applied';
+        } else if (mode === 'cloth') {
+          previewInfo.textContent = '3D Cloth preview - Fabric draped on table with your texture';
+        }
+      }
+    }
+  }
+
   async loadTexture(dataURL) {
     try {
       await this.textureManager.loadImage(dataURL);
       this.controls.updatePreviewImage();
       this.controls.updateSliderValues();
-      document.body.style.background = '#eee';
+
+      // Update preview based on current mode
+      if (this.currentPreviewMode === 'background') {
+        document.body.style.background = '#eee';
+        document.body.style.backgroundImage = `url('${this.textureManager.export()}')`;
+      } else if (this.threePreview) {
+        const textureDataURL = this.textureManager.export();
+        this.threePreview.updateTexture(textureDataURL);
+      }
     } catch (error) {
       console.error('Failed to load texture:', error);
       this.showError('Failed to load texture. Please try a different image.');

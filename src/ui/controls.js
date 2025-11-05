@@ -5,8 +5,9 @@
 import { debounce } from '../utils/helpers.js';
 
 export class UIControls {
-  constructor(textureManager) {
+  constructor(textureManager, app) {
     this.textureManager = textureManager;
+    this.app = app;
     this.widthSlider = document.getElementById('setWidthSlider');
     this.heightSlider = document.getElementById('setheightSlider');
     this.linkCheckbox = document.getElementById('cb1');
@@ -58,6 +59,7 @@ export class UIControls {
         const useMirroring = radio.value === 'true';
         await this.textureManager.setTilingPattern(useMirroring);
         this.updatePreviewImage();
+        this.updateThreePreview();
       });
     });
 
@@ -98,5 +100,12 @@ export class UIControls {
   updatePreviewImage() {
     const dataURL = this.textureManager.export();
     this.previewImage.src = dataURL;
+  }
+
+  updateThreePreview() {
+    if (this.app && this.app.threePreview && this.app.currentPreviewMode !== 'background') {
+      const dataURL = this.textureManager.export();
+      this.app.threePreview.updateTexture(dataURL);
+    }
   }
 }

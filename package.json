@@ -20,6 +20,9 @@
   ],
   "author": "Akshay Nikhare",
   "license": "MIT",
+  "dependencies": {
+    "three": "^0.160.0"
+  },
   "devDependencies": {
     "vite": "^5.0.0",
     "eslint": "^8.55.0",
