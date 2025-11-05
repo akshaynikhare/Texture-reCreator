@@ -94,6 +94,17 @@ npm run build
 npm run preview
 ```
 
+### Deployment to GitHub Pages
+
+The project automatically deploys to GitHub Pages using GitHub Actions:
+
+1. Push to the `main` or `master` branch
+2. GitHub Actions builds the project
+3. Built files are deployed to GitHub Pages
+4. Site is live at `https://akshaynikhare.github.io/Texture-reCreator/`
+
+See [Deployment Guide](docs/DEPLOYMENT.md) for detailed instructions.
+
 ## 📁 Project Structure
 
 ```
@@ -128,6 +139,7 @@ Texture-reCreator/
 - [Architecture Guide](docs/ARCHITECTURE.md) - System design and code organization
 - [API Documentation](docs/API.md) - Detailed API reference
 - [User Guide](docs/USER_GUIDE.md) - Complete usage instructions
+- [Deployment Guide](docs/DEPLOYMENT.md) - GitHub Pages deployment instructions
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute
 
 ## 🎨 Usage Examples
