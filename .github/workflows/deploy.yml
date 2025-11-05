@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - 'claude/**'  # Deploy from Claude branches
   workflow_dispatch:
 
 permissions:
