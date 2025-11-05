@@ -14,9 +14,8 @@ class TextureReCreatorApp {
   constructor() {
     this.canvas = document.getElementById('cvs');
     this.previewImage = document.getElementById('cvs1');
-    this.container = document.getElementById('container');
 
-    if (!this.canvas || !this.previewImage || !this.container) {
+    if (!this.canvas || !this.previewImage) {
       console.error('Required elements not found in DOM');
       return;
     }
