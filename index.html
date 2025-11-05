@@ -60,13 +60,6 @@
               <span class="slider-value" id="width-value">1</span>
             </div>
 
-            <div class="linkage">
-              <input type="checkbox" id="cb1" aria-label="Link width and height" />
-              <label for="cb1">
-                <div id="img" class="link-icon"></div>
-              </label>
-            </div>
-
             <div class="control-label">Height</div>
             <div class="slider-container">
               <input
@@ -79,6 +72,13 @@
                 aria-label="Tile height"
               />
               <span class="slider-value" id="height-value">1</span>
+            </div>
+
+            <div class="linkage">
+              <input type="checkbox" id="cb1" aria-label="Link width and height" />
+              <label for="cb1" class="link-button">
+                <img src="./img/link_a.png" class="link-icon-img" id="linkIcon" alt="Link/Unlink" />
+              </label>
             </div>
           </div>
         </section>
@@ -96,7 +96,8 @@
                 value="false"
                 aria-label="Standard tiling pattern"
               />
-              <label class="type-cc t1_id" for="t1">
+              <label class="type-cc" for="t1">
+                <img src="./img/t1.png" alt="Standard tiling" class="pattern-preview" />
                 <span class="radio-label">Standard</span>
               </label>
             </div>
@@ -109,7 +110,8 @@
                 value="true"
                 aria-label="Mirror tiling pattern"
               />
-              <label class="type-cc t2_id" for="t2">
+              <label class="type-cc" for="t2">
+                <img src="./img/t2.png" alt="Mirror tiling" class="pattern-preview" />
                 <span class="radio-label">Mirror</span>
               </label>
             </div>

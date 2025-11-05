@@ -41,12 +41,16 @@ export class UIControls {
     // Link/unlink checkbox
     this.linkCheckbox.addEventListener('change', () => {
       this.isLinked = !this.linkCheckbox.checked;
+      this.updateLinkIcon();
       if (this.isLinked) {
         this.widthSlider.value = this.heightSlider.value;
         this.updateSliderValues();
         this.updateTileSize();
       }
     });
+
+    // Initialize link icon
+    this.updateLinkIcon();
 
     // Pattern type radio buttons
     this.patternRadios.forEach((radio) => {
@@ -72,6 +76,17 @@ export class UIControls {
     const heightValueEl = document.getElementById('height-value');
     if (widthValueEl) widthValueEl.textContent = this.widthSlider.value;
     if (heightValueEl) heightValueEl.textContent = this.heightSlider.value;
+  }
+
+  updateLinkIcon() {
+    const linkIcon = document.getElementById('linkIcon');
+    if (linkIcon) {
+      if (this.isLinked) {
+        linkIcon.src = './img/link_a.png';
+      } else {
+        linkIcon.src = './img/link_b.png';
+      }
+    }
   }
 
   updateTileSize() {
