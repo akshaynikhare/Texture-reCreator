@@ -454,10 +454,36 @@ body {
   .app-layout { flex-direction: column; }
   .sidebar { width: 100%; min-width: 100%; max-height: 40vh; }
   .sidebar-content { padding: var(--spacing-md); }
-  .preview-area { height: 60vh; }
+  .preview-area { 
+    height: 60vh; 
+    min-height: 200px;
+    /* Ensure background image is visible on mobile */
+    background-size: auto !important;
+  }
+  
+  /* Improve touch targets on mobile */
+  .btn-primary {
+    min-height: 48px;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .mode-option {
+    min-height: 44px;
+  }
 }
 
 @media (max-width: 480px) {
   .sidebar-header h1 { font-size: 1.25rem; }
   .pattern-options { grid-template-columns: 1fr; }
+}
+
+/* Touch active state for mobile */
+.touch-active {
+  opacity: 0.95;
+}
+
+/* Drag over visual feedback */
+.drag-over {
+  outline: 3px dashed var(--accent-primary);
+  outline-offset: -3px;
 }

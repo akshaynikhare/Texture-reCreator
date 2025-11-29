@@ -22,8 +22,10 @@ export class TextureManager {
   async loadImage(imageDataURL) {
     return new Promise((resolve, reject) => {
       const image = new Image();
-      image.src = imageDataURL;
+      // Set crossOrigin before src to prevent canvas taint issues on mobile browsers
+      image.crossOrigin = 'anonymous';
       this.currentImageData = imageDataURL;
+      image.src = imageDataURL;
 
       image.onload = () => {
         this.renderer.generateTexture(image, this.useMirroring);
