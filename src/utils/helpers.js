@@ -47,3 +47,48 @@ export function throttle(func, limit = 100) {
 export function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
+
+/**
+ * Parse current URL search params into a plain object.
+ */
+export function getUrlState() {
+  if (typeof window === 'undefined') return {};
+  const params = new URLSearchParams(window.location.search);
+  const state = {};
+  for (const [key, value] of params.entries()) {
+    state[key] = value;
+  }
+  return state;
+}
+
+/**
+ * Update the browser URL with the provided state object (using pushState or replaceState).
+ * Only string/number/boolean values are serialized.
+ * @param {Object} state
+ * @param {Object} [options]
+ * @param {boolean} [options.replace] - If true, uses replaceState instead of pushState.
+ */
+export function setUrlState(state = {}, { replace = true } = {}) {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.href);
+  const params = new URLSearchParams(url.search);
+
+  Object.entries(state).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === '') {
+      params.delete(key);
+    } else {
+      params.set(key, String(value));
+    }
+  });
+
+  url.search = params.toString();
+
+  if (replace && window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', url.toString());
+  } else if (window.history && window.history.pushState) {
+    window.history.pushState(null, '', url.toString());
+  } else {
+    // Fallback for very old browsers
+    window.location.search = url.search;
+  }
+}

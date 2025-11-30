@@ -24,6 +24,9 @@ export class ThreePreview {
     this.animationId = null;
     this.currentMode = 'sphere';
 
+    // Track the logical tiling steps so 3D repeat can follow slider size
+    this.tileSteps = { widthSteps: 16, heightSteps: 16 };
+
     this.init();
   }
 
@@ -35,8 +38,9 @@ export class ThreePreview {
     // Camera setup
     const aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    this.camera.position.set(8, 5, 8); // Position to see both walls of L-shape clearly
-    this.camera.lookAt(-2, 2, -1); // Look at the corner intersection
+    // Default position aimed for centered objects like sphere/cube
+    this.camera.position.set(4, 3, 6);
+    this.camera.lookAt(0, 0, 0);
 
     // Renderer setup
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -58,14 +62,16 @@ export class ThreePreview {
     this.controls.dampingFactor = 0.05;
     this.controls.enableZoom = true;
     this.controls.enablePan = true;
-    this.controls.target.set(-2, 2, -1); // Look at the corner intersection
+    // Default target at origin for centered primitives (sphere/cube)
+    this.controls.target.set(0, 0, 0);
+    this.controls.update();
 
     // Lighting
     this.setupLighting();
 
-  // Try to load a studio environment/background if present in the repo
-  // Drop a file at 'assets/env/studio.hdr' (preferred) or 'assets/env/studio.jpg' to enable.
-  this.loadEnvironmentIfAvailable();
+    // Try to load a studio environment/background if present in the repo
+    // Drop a file at 'assets/env/studio.hdr' (preferred) or 'assets/env/studio.jpg' to enable.
+    this.loadEnvironmentIfAvailable();
 
     // Handle window resize
     window.addEventListener('resize', () => this.onWindowResize());
@@ -197,10 +203,10 @@ export class ThreePreview {
     // Create L-shaped wall with exact specifications
     // Convert mm to Three.js units (1 unit = 100mm for better scale)
     const wallLongSide = 8;    // 1000mm
-    const wallShortSide = 4;    // 400mm
-    const wallHeight = 4;       // 900mm
-    const wallThickness = 0.5 ;    // 100mm
-    const skirtingHeight = 0.5;
+    const wallShortSide = 4;   // 400mm
+    const wallHeight = 4;      // 900mm -> 9 units so that y spans -2 to +2.5 with floor at 0
+    const wallThickness = 0.5; // 100mm
+    const skirtingHeight = 0.2; // slightly slimmer skirting
 
     const material = new THREE.MeshStandardMaterial({
       map: this.texture,
@@ -210,56 +216,67 @@ export class ThreePreview {
       envMapIntensity: 0.3,
     });
 
-    // White material for wall edges and skirting
-    const whiteMaterial = new THREE.MeshStandardMaterial({
+    // White material for wall edges
+    const wallEdgeMaterial = new THREE.MeshStandardMaterial({
       color: 0xf5f5f5,
       roughness: 0.8,
       metalness: 0.0,
     });
 
+    // Silver material for skirting
+    const skirtingMaterial = new THREE.MeshStandardMaterial({
+      color: 0xb0b0b0,       // light silver/grey
+      map: this.texture,     // reuse texture so user fabric can drive pattern if desired
+      roughness: 0.25,       // smoother (more reflective)
+      metalness: 0.9,        // very metallic
+      envMapIntensity: 1.0,  // pick up environment reflections
+    });
+
     // Wall 1 - Long side (1000mm length) - horizontal back wall
     const wall1Geometry = new THREE.BoxGeometry(wallLongSide, wallHeight, wallThickness);
     const wall1 = new THREE.Mesh(wall1Geometry, [
-      material, // right side
-      material, // left side
-      whiteMaterial, // top
-      whiteMaterial, // bottom
-      material,      // front face (textured - facing into room)
-      material       // back face also textured so it shows from oblique angles
+      material,
+      material,
+      wallEdgeMaterial,
+      wallEdgeMaterial,
+      material,
+      material,
     ]);
-  // Slightly pull wall1 back so the side wall does not visually overlap at the corner
-  wall1.position.set(0, 0, 0);
+    // Place wall so that its bottom edge is at y = 0 (floor level)
+    wall1.position.set(0, wallHeight / 2, -wallShortSide / 2);
     wall1.castShadow = true;
     wall1.receiveShadow = true;
     wall1.name = 'wall1';
     this.scene.add(wall1);
 
     // Wall 2 - Short side (400mm length), perpendicular forming L
-    const wall2Geometry = new THREE.BoxGeometry(wallThickness, wallHeight/2, wallShortSide);
+    const wall2Geometry = new THREE.BoxGeometry(wallThickness, wallHeight, wallShortSide);
     const wall2 = new THREE.Mesh(wall2Geometry, [
-      material,      // right face (textured - facing into room)
-      material,      // left face also textured for better coverage
-      material, // top
-      material, // bottom
-      material, // front face
-      material  // back face
+      material,
+      material,
+      wallEdgeMaterial,
+      wallEdgeMaterial,
+      material,
+      material,
     ]);
-    // Position at the left end of wall1 to form L, with a tiny offset so edges don't overlap
-    wall2.position.set(
-     0, 
-      0, 
-      0
-    );
+    // Position so its bottom is on the floor and it meets wall1 at the corner
+    wall2.position.set(-wallLongSide / 2, wallHeight / 2, 0);
     wall2.castShadow = true;
     wall2.receiveShadow = true;
     wall2.name = 'wall2';
     this.scene.add(wall2);
 
-    // Add skirting boards
-    this.addSkirting(wallLongSide, wallThickness, skirtingHeight, whiteMaterial);
+    // Add skirting boards with silver material
+    this.addSkirting(
+      wallLongSide,
+      wallShortSide,
+      wallThickness,
+      skirtingHeight,
+      skirtingMaterial
+    );
 
     // Add simple white chair for reference
-    this.addChair();
+    this.addChair(wallLongSide, wallShortSide);
 
     // Add ground plane for better depth perception
     this.addGround();
@@ -267,7 +284,7 @@ export class ThreePreview {
     this.currentMode = 'cloth';
   }
 
-  addChair() {
+  addChair(wallLongSide = 8, wallShortSide = 4) {
     // Remove old chair if exists
     const oldChair = this.scene.getObjectByName('referenceChair');
     if (oldChair) {
@@ -280,49 +297,51 @@ export class ThreePreview {
 
     const chairGroup = new THREE.Group();
     chairGroup.name = 'referenceChair';
-    
+
+    // Fixed chair color: #4A5568
     const whiteMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5f5f5,
+      color: 0x4a5568,
       roughness: 0.7,
       metalness: 0.1,
     });
 
-    // Seat
-    const seatGeometry = new THREE.BoxGeometry(0.5, 0.05, 0.5);
+    // Seat: place around 0.45m above floor
+    const seatGeometry = new THREE.BoxGeometry(0.6, 0.05, 0.6);
     const seat = new THREE.Mesh(seatGeometry, whiteMaterial);
-    seat.position.y = -0.8;
+    seat.position.y = 0.45;
     chairGroup.add(seat);
 
-    // Backrest
-    const backGeometry = new THREE.BoxGeometry(0.5, 0.6, 0.05);
+    // Backrest: extends upwards from seat
+    const backGeometry = new THREE.BoxGeometry(0.6, 0.7, 0.05);
     const back = new THREE.Mesh(backGeometry, whiteMaterial);
-    back.position.set(0, -0.5, -0.225);
+    back.position.set(0, 0.45 + 0.35, -0.275);
     chairGroup.add(back);
 
-    // Legs
-    const legGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.5, 8);
+    // Legs: go from floor (0) up to seat height
+    const legGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.45, 8);
     const legPositions = [
-      { x: 0.2, z: 0.2 },
-      { x: -0.2, z: 0.2 },
-      { x: 0.2, z: -0.2 },
-      { x: -0.2, z: -0.2 },
+      { x: 0.25, z: 0.25 },
+      { x: -0.25, z: 0.25 },
+      { x: 0.25, z: -0.25 },
+      { x: -0.25, z: -0.25 },
     ];
 
     legPositions.forEach(pos => {
       const leg = new THREE.Mesh(legGeometry, whiteMaterial);
-      leg.position.set(pos.x, -1.05, pos.z);
+      leg.position.set(pos.x, 0.45 / 2, pos.z);
       chairGroup.add(leg);
     });
 
-    // Position chair in front of the corner, angled nicely
-    chairGroup.position.set(0.5, 0, -0.5);
-    chairGroup.rotation.y = Math.PI / 6;  // Slight angle for better view
+    // Position chair slightly away from the corner, centered with respect to the L
+    const offsetFromCorner = 1.2;
+    chairGroup.position.set(-wallLongSide / 4, 0, -wallShortSide / 2 + offsetFromCorner);
+    chairGroup.rotation.y = Math.PI / 6; // Slight angle for better view
     chairGroup.castShadow = true;
     chairGroup.receiveShadow = true;
     this.scene.add(chairGroup);
   }
 
-  addSkirting(wallLongSide, wallThickness, skirtingHeight, whiteMaterial) {
+  addSkirting(wallLongSide, wallShortSide, wallThickness, skirtingHeight, skirtingMaterial) {
     // Remove old skirting if exists
     const oldSkirtings = this.scene.children.filter(
       child => child.name && child.name.startsWith('skirting')
@@ -333,29 +352,36 @@ export class ThreePreview {
       if (skirting.material) skirting.material.dispose();
     });
 
-    const wallShortSide = 4;  // 400mm
     const skirtingDepth = 0.08;
-    const skirtingY = -2 + skirtingHeight / 2;
+    const skirtingY = skirtingHeight / 2; // bottom at floor (0)
 
-    // Skirting for long wall (1000mm) - along the back wall
+    // Override skirting material to use fixed color only: #5A5A5A
+    const fixedSkirtingMaterial = new THREE.MeshStandardMaterial({
+      color: 0x5a5a5a,
+      roughness: 0.25,
+      metalness: 0.9,
+      envMapIntensity: 1.0,
+    });
+
+    // Skirting for long wall (back wall)
     const skirting1Geometry = new THREE.BoxGeometry(wallLongSide, skirtingHeight, skirtingDepth);
-    const skirting1 = new THREE.Mesh(skirting1Geometry, whiteMaterial.clone());
+    const skirting1 = new THREE.Mesh(skirting1Geometry, fixedSkirtingMaterial.clone());
     skirting1.position.set(
-      0, 
-      skirtingY, 
-      0 + skirtingDepth / 2
+      0,
+      skirtingY,
+      -wallShortSide / 2 + skirtingDepth / 2 + wallThickness / 2
     );
     skirting1.castShadow = true;
     skirting1.receiveShadow = true;
     skirting1.name = 'skirting1';
     this.scene.add(skirting1);
 
-    // Skirting for short wall (400mm) - along the side wall
+    // Skirting for short wall (side wall)
     const skirting2Geometry = new THREE.BoxGeometry(skirtingDepth, skirtingHeight, wallShortSide);
-    const skirting2 = new THREE.Mesh(skirting2Geometry, whiteMaterial.clone());
+    const skirting2 = new THREE.Mesh(skirting2Geometry, fixedSkirtingMaterial.clone());
     skirting2.position.set(
-      0, 
-      0, 
+      -wallLongSide / 2 + skirtingDepth / 2 + wallThickness / 2,
+      skirtingY,
       0
     );
     skirting2.castShadow = true;
@@ -363,13 +389,13 @@ export class ThreePreview {
     skirting2.name = 'skirting2';
     this.scene.add(skirting2);
 
-    // Corner piece for skirting (where two skirtings meet)
+    // Corner piece where the two skirtings meet
     const cornerSkirtingGeometry = new THREE.BoxGeometry(skirtingDepth, skirtingHeight, skirtingDepth);
-    const cornerSkirting = new THREE.Mesh(cornerSkirtingGeometry, whiteMaterial.clone());
+    const cornerSkirting = new THREE.Mesh(cornerSkirtingGeometry, fixedSkirtingMaterial.clone());
     cornerSkirting.position.set(
       -wallLongSide / 2 + skirtingDepth / 2,
       skirtingY,
-      0 + skirtingDepth / 2
+      -wallShortSide / 2 + skirtingDepth / 2
     );
     cornerSkirting.castShadow = true;
     cornerSkirting.receiveShadow = true;
@@ -386,10 +412,10 @@ export class ThreePreview {
       if (oldGround.material) oldGround.material.dispose();
     }
 
-    // Create simple ground plane
+    // Create simple ground plane with fixed color: #8B7355
     const groundGeometry = new THREE.PlaneGeometry(10, 10);
     const groundMaterial = new THREE.MeshStandardMaterial({
-      color: 0xe0e0e0,
+      color: 0x8b7355,
       roughness: 0.9,
       metalness: 0.0,
     });
@@ -433,17 +459,32 @@ export class ThreePreview {
     this.currentMode = 'cube';
   }
 
-  updateTexture(dataURL) {
+  /**
+   * Update the preview texture.
+   * @param {string} dataURL - Data URL for the new texture image.
+   * @param {{widthSteps?: number, heightSteps?: number}} [tileSteps] - Logical tile steps from sliders.
+   */
+  updateTexture(dataURL, tileSteps = {}) {
+    // Persist latest tile step info so we can reuse when mode changes
+    if (tileSteps && (tileSteps.widthSteps || tileSteps.heightSteps)) {
+      this.tileSteps = {
+        widthSteps: tileSteps.widthSteps ?? this.tileSteps.widthSteps,
+        heightSteps: tileSteps.heightSteps ?? this.tileSteps.heightSteps,
+      };
+    }
+
     const loader = new THREE.TextureLoader();
     loader.load(dataURL, (texture) => {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
-      // Use stronger tiling on wall mode so patterns are easier to see on large geometry
-      if (this.currentMode === 'cloth') {
-        texture.repeat.set(4, 4);
-      } else {
-        texture.repeat.set(2, 2);
-      }
+
+      // Derive a visible repeat based on tile steps: more steps = denser tiling
+      const { widthSteps, heightSteps } = this.tileSteps;
+      const baseRepeat = this.currentMode === 'cloth' ? 2 : 1;
+      const repeatX = baseRepeat * (widthSteps / 16);
+      const repeatY = baseRepeat * (heightSteps / 16);
+      texture.repeat.set(repeatX, repeatY);
+
       // Ensure texture uses sRGB color space for accurate color display
       if (texture.colorSpace !== undefined) {
         texture.colorSpace = THREE.SRGBColorSpace;
@@ -514,6 +555,13 @@ export class ThreePreview {
 
     if (mode === 'sphere') {
       this.createSphere();
+      // Center the camera and controls on the sphere at origin
+      if (this.camera && this.controls) {
+        this.camera.position.set(4, 3, 6);
+        this.controls.target.set(0, 0, 0);
+        this.camera.lookAt(this.controls.target);
+        this.controls.update();
+      }
     } else if (mode === 'cloth') {
       this.createCloth();
 
@@ -527,6 +575,13 @@ export class ThreePreview {
       }
     } else if (mode === 'cube') {
       this.createCube();
+      // Center the camera and controls on the cube at origin
+      if (this.camera && this.controls) {
+        this.camera.position.set(4, 3, 6);
+        this.controls.target.set(0, 0, 0);
+        this.camera.lookAt(this.controls.target);
+        this.controls.update();
+      }
     }
   }
 

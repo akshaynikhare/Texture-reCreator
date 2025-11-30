@@ -2,19 +2,16 @@
 
 > A modern, high-performance online tool for testing and creating seamless texture patterns for 3D rendering
 
+**Texture reCreator** is a free, browser-based **seamless texture tiling tool** built for:
+- 3D artists and game developers
+- PBR / material authoring workflows
+- Backgrounds and patterns for web & graphic design
+
+Upload any texture, preview **standard or mirror tiling** in real time, and **download a seamless texture** ready for engines like Blender, Unreal Engine, Unity, and WebGL.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Modern Stack](https://img.shields.io/badge/Stack-Modern-green.svg)](https://vitejs.dev/)
-
-## ✨ Features
-
-- 🖼️ **Drag & Drop Interface** - Simply drag your texture image onto the page
-- 🔄 **Two Tiling Patterns** - Standard tiling and mirror tiling for seamless textures
-- 📐 **Adjustable Tile Size** - Control width and height independently or linked
-- 🌓 **Dark Mode Support** - Automatic theme detection with manual toggle
-- 📱 **Fully Responsive** - Works perfectly on desktop, tablet, and mobile
-- ⚡ **Optimized Performance** - Web Workers and debouncing for smooth operation
-- 💾 **Instant Download** - Export your tiled textures in high quality
-- ♿ **Accessible** - ARIA labels and keyboard navigation support
+[![Deploy](https://github.com/akshaynikhare/Texture-reCreator/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/akshaynikhare/Texture-reCreator/actions/workflows/deploy.yml)
 
 ## 🚀 Live Demo
 
@@ -57,6 +54,21 @@ Texture reCreator helps you test if your texture images will tile seamlessly in 
 4. **Download Result** - Save your perfectly tiled texture
 
 The mirror tiling technique flips the image horizontally and vertically at the edges, eliminating visible seams when the texture repeats.
+
+This makes Texture reCreator ideal for quickly checking if a **photo, scan, or painted texture** will loop cleanly as:
+- a game environment texture
+- a material in 3D renderers (Blender, Maya, 3ds Max, Cinema 4D, etc.)
+- a repeating background on websites or UI components.
+
+## 🧩 Use Cases
+
+Common ways people use Texture reCreator:
+
+- **Game development** – test ground, wall, and prop textures for visible seams
+- **3D rendering** – preview PBR albedo/diffuse maps before sending them to a material editor
+- **Environment art** – quickly check tiling for foliage, rocks, bricks, and fabrics
+- **Web & UI design** – create repeating backgrounds and subtle noise textures
+- **Education & tutorials** – demonstrate how mirror tiling removes seams in textures
 
 ## 🛠️ Technology Stack
 
