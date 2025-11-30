@@ -3,6 +3,8 @@
  */
 
 import { debounce } from '../utils/helpers.js';
+import linkIconLinked from '../../assets/link-icon-linked.png';
+import linkIconUnlinked from '../../assets/link-icon-unlinked.png';
 
 export class UIControls {
   constructor(textureManager, app) {
@@ -116,9 +118,9 @@ export class UIControls {
     const linkIcon = document.getElementById('linkIcon');
     if (linkIcon) {
       if (this.isLinked) {
-        linkIcon.src = './assets/link-icon-linked.png';
+        linkIcon.src = linkIconLinked;
       } else {
-        linkIcon.src = './assets/link-icon-unlinked.png';
+        linkIcon.src = linkIconUnlinked;
       }
     }
   }
