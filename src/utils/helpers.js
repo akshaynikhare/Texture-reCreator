@@ -49,6 +49,32 @@ export function clamp(value, min, max) {
 }
 
 /**
+ * Get the base path for the application
+ * This accounts for both local development and GitHub Pages deployment
+ * @returns {string} - Base path with trailing slash
+ */
+export function getBasePath() {
+  // In production (GitHub Pages), use the repository name as base
+  // In development, use root
+  if (import.meta.env.MODE === 'production') {
+    return '/Texture-reCreator/';
+  }
+  return '/';
+}
+
+/**
+ * Get a full asset path relative to the base path
+ * @param {string} assetPath - Relative path to the asset (e.g., 'assets/env/studio.hdr')
+ * @returns {string} - Full path with base
+ */
+export function getAssetPath(assetPath) {
+  const base = getBasePath();
+  // Remove leading slash from assetPath if present
+  const normalizedPath = assetPath.startsWith('/') ? assetPath.slice(1) : assetPath;
+  return `${base}${normalizedPath}`;
+}
+
+/**
  * Parse current URL search params into a plain object.
  */
 export function getUrlState() {

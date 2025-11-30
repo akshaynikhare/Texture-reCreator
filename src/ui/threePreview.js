@@ -6,6 +6,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { getAssetPath } from '../utils/helpers.js';
 
 export class ThreePreview {
   constructor(containerId) {
@@ -81,8 +82,8 @@ export class ThreePreview {
   }
 
   loadEnvironmentIfAvailable() {
-    const tryHdr = 'assets/env/studio.hdr';
-    const tryJpg = 'assets/env/studio.jpg';
+    const tryHdr = getAssetPath('assets/env/studio.hdr');
+    const tryJpg = getAssetPath('assets/env/studio.jpg');
 
     // Helper to set environment from a loaded texture (HDR or JPG)
     const applyEnvFromTexture = (tex, isHDR = false) => {

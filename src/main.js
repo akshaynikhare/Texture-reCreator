@@ -10,6 +10,8 @@ import { ThemeManager } from './ui/themeManager.js';
 import { ThreePreview } from './ui/threePreview.js';
 import { toDataURL } from './utils/imageLoader.js';
 import { getUrlState, setUrlState } from './utils/helpers.js';
+// Import the default texture so Vite can process it
+import defaultTextureUrl from '../assets/texture-original.jpg';
 
 class TextureReCreatorApp {
   constructor() {
@@ -274,7 +276,7 @@ class TextureReCreatorApp {
   async loadDefaultTexture() {
     try {
       // Use texture-original.jpg as the default texture
-      const dataURL = await toDataURL('assets/texture-original.jpg');
+      const dataURL = await toDataURL(defaultTextureUrl);
       await this.loadTexture(dataURL);
 
       // Set default tile size to 16 only if URL didn't override it
