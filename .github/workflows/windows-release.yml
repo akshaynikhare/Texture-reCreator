@@ -1,0 +1,152 @@
+name: Windows App Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore windows_app/Texture-reCreator/Texture-reCreator.sln
+
+      - name: Build solution
+        run: msbuild windows_app/Texture-reCreator/Texture-reCreator.sln /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Get version
+        id: get_version
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            # Extract version from tag (remove 'v' prefix)
+            VERSION=${GITHUB_REF#refs/tags/v}
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create output directory
+        run: mkdir -p release
+
+      - name: Copy EXE and dependencies
+        shell: pwsh
+        run: |
+          $sourcePath = "windows_app/Texture-reCreator/Texture-reCreator/bin/Release"
+          $destPath = "release"
+          
+          # Copy all files from Release folder
+          Copy-Item -Path "$sourcePath/*" -Destination $destPath -Recurse -Force
+          
+          # Create ZIP of the EXE and dependencies
+          Compress-Archive -Path "$destPath/*" -DestinationPath "Texture-reCreator-${{ steps.get_version.outputs.VERSION }}-windows.zip" -Force
+
+      - name: Install WiX Toolset
+        run: |
+          dotnet tool install --global wix --version 5.0.2
+
+      - name: Create WiX source file
+        shell: pwsh
+        run: |
+          $version = "${{ steps.get_version.outputs.VERSION }}"
+          # Ensure version has 4 parts for MSI
+          $versionParts = $version.Split('.')
+          while ($versionParts.Count -lt 4) {
+            $versionParts += "0"
+          }
+          $msiVersion = ($versionParts[0..3]) -join '.'
+          
+          $wxsContent = @"
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+            <Package Name="Texture-reCreator" 
+                     Manufacturer="Akshay Nikhare" 
+                     Version="$msiVersion" 
+                     UpgradeCode="F420DE11-42DC-4D80-BABB-B1127FEC2A8C"
+                     Compressed="yes">
+              
+              <MajorUpgrade DowngradeErrorMessage="A newer version of Texture-reCreator is already installed." />
+              <MediaTemplate EmbedCab="yes" />
+              
+              <StandardDirectory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="Texture-reCreator">
+                  <Component Id="MainExecutable" Guid="A061DB98-09EC-45E6-81C4-C66363234A4F">
+                    <File Id="TextureReCreatorExe" Source="release\Texture-reCreator.exe" KeyPath="yes" />
+                  </Component>
+                  <Component Id="ConfigFile" Guid="A061DB98-09EC-45E6-81C4-C66363234A50">
+                    <File Id="AppConfig" Source="release\Texture-reCreator.exe.config" />
+                  </Component>
+                </Directory>
+              </StandardDirectory>
+              
+              <StandardDirectory Id="ProgramMenuFolder">
+                <Directory Id="ApplicationProgramsFolder" Name="Texture-reCreator">
+                  <Component Id="ApplicationShortcut" Guid="A061DB98-09EC-45E6-81C4-C66363234A51">
+                    <Shortcut Id="ApplicationStartMenuShortcut"
+                              Name="Texture-reCreator"
+                              Target="[INSTALLFOLDER]Texture-reCreator.exe"
+                              WorkingDirectory="INSTALLFOLDER" />
+                    <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
+                    <RegistryValue Root="HKCU" Key="Software\TextureReCreator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+                  </Component>
+                </Directory>
+              </StandardDirectory>
+              
+              <Feature Id="ProductFeature" Title="Texture-reCreator" Level="1">
+                <ComponentRef Id="MainExecutable" />
+                <ComponentRef Id="ConfigFile" />
+                <ComponentRef Id="ApplicationShortcut" />
+              </Feature>
+            </Package>
+          </Wix>
+          "@
+          
+          $wxsContent | Out-File -FilePath "Texture-reCreator.wxs" -Encoding UTF8
+
+      - name: Build MSI
+        shell: pwsh
+        run: |
+          wix build Texture-reCreator.wxs -o "Texture-reCreator-${{ steps.get_version.outputs.VERSION }}-windows.msi"
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Texture-reCreator-EXE
+          path: Texture-reCreator-${{ steps.get_version.outputs.VERSION }}-windows.zip
+
+      - name: Upload MSI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Texture-reCreator-MSI
+          path: Texture-reCreator-${{ steps.get_version.outputs.VERSION }}-windows.msi
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            Texture-reCreator-${{ steps.get_version.outputs.VERSION }}-windows.zip
+            Texture-reCreator-${{ steps.get_version.outputs.VERSION }}-windows.msi
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
