@@ -10,8 +10,8 @@ import { ThemeManager } from './ui/themeManager.js';
 import { ThreePreview } from './ui/threePreview.js';
 import { toDataURL } from './utils/imageLoader.js';
 import { getUrlState, setUrlState } from './utils/helpers.js';
-// Import the default texture so Vite can process it
-import defaultTextureUrl from '../assets/texture-original.jpg';
+// Import the default texture so Vite can process it - use ?url to get the URL string
+import defaultTextureUrl from '../assets/texture-original.jpg?url';
 
 class TextureReCreatorApp {
   constructor() {

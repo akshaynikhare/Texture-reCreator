@@ -3,8 +3,8 @@
  */
 
 import { debounce } from '../utils/helpers.js';
-import linkIconLinked from '../../assets/link-icon-linked.png';
-import linkIconUnlinked from '../../assets/link-icon-unlinked.png';
+import linkIconLinked from '../../assets/link-icon-linked.png?url';
+import linkIconUnlinked from '../../assets/link-icon-unlinked.png?url';
 
 export class UIControls {
   constructor(textureManager, app) {
