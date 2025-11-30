@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="./src/styles/main.css" />
     <link rel="stylesheet" href="./src/styles/theme.css" />
 
-    <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="./img/sam-1.jpg" />
+  <!-- Preload critical assets -->
+  <link rel="preload" as="image" href="./assets/texture-original.jpg" />
   </head>
   <body>
     <!-- Split Screen Layout -->
@@ -63,14 +63,14 @@
             <div class="control-item">
               <label class="control-label">
                 Width
-                <span class="control-value" id="width-value">3</span>
+                <span class="control-value" id="width-value">16</span>
               </label>
               <input
                 id="setWidthSlider"
                 type="range"
                 min="1"
                 max="20"
-                value="3"
+                value="16"
                 class="slider"
               />
             </div>
@@ -78,22 +78,22 @@
             <div class="control-item">
               <label class="control-label">
                 Height
-                <span class="control-value" id="height-value">3</span>
+                <span class="control-value" id="height-value">16</span>
               </label>
               <input
                 id="setheightSlider"
                 type="range"
                 min="1"
                 max="20"
-                value="3"
+                value="16"
                 class="slider"
               />
             </div>
 
             <div class="link-control">
-              <input type="checkbox" id="cb1" />
+              <input type="checkbox" id="cb1" checked />
               <label for="cb1" class="link-button">
-                <img src="./img/link_a.png" class="link-icon" id="linkIcon" alt="Link" />
+                <img src="./assets/link-icon-linked.png" class="link-icon" id="linkIcon" alt="Link" />
                 <span>Link Dimensions</span>
               </label>
             </div>
@@ -113,7 +113,7 @@
               <div class="pattern-option">
                 <input type="radio" id="t1" name="type_s" value="false" checked />
                 <label for="t1">
-                  <img src="./img/t1.png" alt="Standard" />
+                  <img src="./assets/thumbnail-1.png" alt="Standard" />
                   <span>Standard</span>
                 </label>
               </div>
@@ -121,7 +121,7 @@
               <div class="pattern-option">
                 <input type="radio" id="t2" name="type_s" value="true" />
                 <label for="t2">
-                  <img src="./img/t2.png" alt="Mirror" />
+                  <img src="./assets/thumbnail-2.png" alt="Mirror" />
                   <span>Mirror</span>
                 </label>
               </div>
@@ -157,9 +157,18 @@
 
               <button class="mode-option" data-mode="cloth">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11M18 10v11"/>
+                  <path d="M4 2v20M8 2v20M12 2v20M16 2v20M20 2v20"/>
                 </svg>
-                <span>Cloth</span>
+                <span>Wall</span>
+              </button>
+
+              <button class="mode-option" data-mode="cube">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+                <span>Cube</span>
               </button>
             </div>
           </section>

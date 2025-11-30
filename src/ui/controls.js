@@ -14,7 +14,7 @@ export class UIControls {
     this.patternRadios = document.getElementsByName('type_s');
     this.downloadLink = document.getElementById('dlnk');
     this.previewImage = document.getElementById('cvs1');
-    this.isLinked = false; // Start unlinked (checkbox unchecked)
+  this.isLinked = true; // Start linked
 
     this.init();
   }
@@ -39,6 +39,11 @@ export class UIControls {
       debouncedUpdate();
     });
 
+    // Ensure checkbox reflects default linked state
+    if (this.linkCheckbox) {
+      this.linkCheckbox.checked = true;
+    }
+
     // Link/unlink checkbox
     this.linkCheckbox.addEventListener('change', () => {
       this.isLinked = this.linkCheckbox.checked; // Checked = linked
@@ -58,8 +63,22 @@ export class UIControls {
       radio.addEventListener('change', async () => {
         const useMirroring = radio.value === 'true';
         await this.textureManager.setTilingPattern(useMirroring);
+        // Update the small preview image
         this.updatePreviewImage();
+        // Update 3D preview if active
         this.updateThreePreview();
+        // If we're in background preview mode, also refresh the preview area background.
+        // Previously only the document.body background was updated, which isn't visible
+        // in the new layout that uses #previewArea for tiling.
+        if (this.app && this.app.currentPreviewMode === 'background') {
+          const previewArea = document.getElementById('previewArea');
+          if (previewArea) {
+            const dataURL = this.textureManager.export();
+            previewArea.style.backgroundImage = `url('${dataURL}')`;
+            previewArea.style.backgroundSize = `${this.textureManager.tileWidth}px ${this.textureManager.tileHeight}px`;
+            previewArea.style.backgroundRepeat = 'repeat';
+          }
+        }
       });
     });
 
@@ -69,8 +88,12 @@ export class UIControls {
       this.downloadLink.href = dataURL;
     });
 
-    // Initialize slider values
+    // Initialize slider values and enforce link at start
+    if (this.isLinked) {
+      this.heightSlider.value = this.widthSlider.value;
+    }
     this.updateSliderValues();
+    this.updateTileSize();
   }
 
   updateSliderValues() {
@@ -84,9 +107,9 @@ export class UIControls {
     const linkIcon = document.getElementById('linkIcon');
     if (linkIcon) {
       if (this.isLinked) {
-        linkIcon.src = './img/link_a.png';
+        linkIcon.src = './assets/link-icon-linked.png';
       } else {
-        linkIcon.src = './img/link_b.png';
+        linkIcon.src = './assets/link-icon-unlinked.png';
       }
     }
   }

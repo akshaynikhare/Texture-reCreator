@@ -333,7 +333,7 @@ async toDataURL(src: string): Promise<string>
 
 **Example:**
 ```javascript
-const dataURL = await toDataURL('img/texture.jpg');
+const dataURL = await toDataURL('assets/texture-original.jpg');
 ```
 
 ##### `isImageFile()`

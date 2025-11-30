@@ -137,7 +137,7 @@ export default defineConfig({
 **Solutions**:
 1. Verify `base` in `vite.config.js` matches repository name
 2. Check that paths in `index.html` are relative (`./src/...` not `/src/...`)
-3. Ensure images are in the `img/` folder (not inside `src/`)
+3. Ensure images are in the `assets/` folder (not inside `src/`)
 
 ### Site Not Updating
 

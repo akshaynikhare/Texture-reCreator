@@ -141,7 +141,9 @@ class TextureReCreatorApp {
         if (mode === 'sphere') {
           previewInfo.textContent = '3D Sphere preview - Rotating sphere with your texture applied';
         } else if (mode === 'cloth') {
-          previewInfo.textContent = '3D Cloth preview - Fabric draped on table with your texture';
+          previewInfo.textContent = '3D Wall preview - Draped fabric wall with vertical folds';
+        } else if (mode === 'cube') {
+          previewInfo.textContent = '3D Cube preview - Rotating cube with your texture applied';
         }
       }
     }
@@ -173,12 +175,13 @@ class TextureReCreatorApp {
 
   async loadDefaultTexture() {
     try {
-      const dataURL = await toDataURL('img/sam-1.jpg');
+      // Use texture-original.jpg as the default texture
+      const dataURL = await toDataURL('assets/texture-original.jpg');
       await this.loadTexture(dataURL);
 
-      // Set default tile size
-      document.getElementById('setWidthSlider').value = 3;
-      document.getElementById('setheightSlider').value = 3;
+      // Set default tile size to 16
+      document.getElementById('setWidthSlider').value = 16;
+      document.getElementById('setheightSlider').value = 16;
       this.controls.updateSliderValues();
       this.controls.updateTileSize();
     } catch (error) {

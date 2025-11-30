@@ -24,25 +24,25 @@ Visit the live application: [https://akshaynikhare.github.io/Texture-reCreator/]
 
 ### Light Mode
 <p align="center">
-  <img src="img/sam_i.jpg" width="300" alt="Original texture">
-  <img src="img/sam_i_ren.jpg" width="300" alt="Rendered texture">
+  <img src="assets/texture-original.jpg" width="300" alt="Original texture">
+  <img src="assets/texture-original-rendered.jpg" width="300" alt="Rendered texture">
 </p>
 
 ### Tiling Patterns
 
 **Standard Tiling**
 <p align="center">
-  <img src="img/sam_f.jpg" width="300" alt="Standard tiling pattern">
+  <img src="assets/texture-standard-tiling.jpg" width="300" alt="Standard tiling pattern">
 </p>
 
 **Mirror Tiling** (for seamless textures)
 <p align="center">
-  <img src="img/sam_f_nl.jpg" width="300" alt="Mirror tiling pattern">
+  <img src="assets/texture-mirror-tiling.jpg" width="300" alt="Mirror tiling pattern">
 </p>
 
 **Final Result**
 <p align="center">
-  <img src="img/sam_f_ren.jpg" width="300" alt="Final rendered texture">
+  <img src="assets/texture-final-rendered.jpg" width="300" alt="Final rendered texture">
 </p>
 
 ## 🎯 How It Works
@@ -128,7 +128,7 @@ Texture-reCreator/
 │   │   └── theme.css
 │   └── main.js            # Application entry point
 ├── docs/                  # Documentation
-├── img/                   # Image assets
+├── assets/                # Image assets
 ├── index.html             # Main HTML file
 ├── package.json           # Dependencies
 └── vite.config.js         # Vite configuration
@@ -136,11 +136,8 @@ Texture-reCreator/
 
 ## 📚 Documentation
 
-- [Architecture Guide](docs/ARCHITECTURE.md) - System design and code organization
-- [API Documentation](docs/API.md) - Detailed API reference
-- [User Guide](docs/USER_GUIDE.md) - Complete usage instructions
 - [Deployment Guide](docs/DEPLOYMENT.md) - GitHub Pages deployment instructions
-- [Contributing Guide](CONTRIBUTING.md) - How to contribute
+- [Contributing Guide](docs/CONTRIBUTING.md) - How to contribute
 
 ## 🎨 Usage Examples
 
@@ -174,7 +171,7 @@ Texture-reCreator/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are welcome! Please read our [Contributing Guide](docs/CONTRIBUTING.md) for details.
 
 ### Development Workflow
 
