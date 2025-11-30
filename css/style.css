@@ -92,7 +92,7 @@ input[type="checkbox"][id^="cb"] {
 
 
   .linkage label #img {
-	content: url("../img/link_a.png");
+	content: url("../assets/link-icon-linked.png");
 	-webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -105,7 +105,7 @@ input[type="checkbox"][id^="cb"] {
   
   .linkage :checked + label #img {
 	z-index: -1;
-	content: url("../img/link_b.png");
+	content: url("../assets/link-icon-unlinked.png");
 	}
 
 
@@ -132,12 +132,12 @@ input[type="checkbox"][id^="cb"] {
 
 	.t1_id{
 
-		background-image:url("../img/t1.png");
+		background-image:url("../assets/thumbnail-1.png");
 	
 
 	}
 	.t2_id{
-		background-image:url("../img/t2.png");
+		background-image:url("../assets/thumbnail-2.png");
 	
 	}
 

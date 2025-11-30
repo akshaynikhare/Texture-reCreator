@@ -150,7 +150,7 @@ function draw(a = sw.value, b = sh.value) {
 }
 
 
-toDataURL("img/sam-1.jpg", function(dataURL) {
+toDataURL("assets/texture-original.jpg", function(dataURL) {
     im_bi=dataURL;
     sw.value = 3;
     sh.value = 3;

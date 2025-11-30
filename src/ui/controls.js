@@ -14,14 +14,14 @@ export class UIControls {
     this.patternRadios = document.getElementsByName('type_s');
     this.downloadLink = document.getElementById('dlnk');
     this.previewImage = document.getElementById('cvs1');
-    this.isLinked = false; // Start unlinked (checkbox unchecked)
+    this.isLinked = true; // Start linked
 
     this.init();
   }
 
   init() {
     // Slider controls with debouncing for better performance
-    const debouncedUpdate = debounce(() => this.updateTileSize(), 50);
+    const debouncedUpdate = debounce(() => this.updateTileSizeAndUrl(), 50);
 
     this.widthSlider.addEventListener('input', () => {
       if (this.isLinked) {
@@ -39,6 +39,11 @@ export class UIControls {
       debouncedUpdate();
     });
 
+    // Ensure checkbox reflects default linked state
+    if (this.linkCheckbox) {
+      this.linkCheckbox.checked = true;
+    }
+
     // Link/unlink checkbox
     this.linkCheckbox.addEventListener('change', () => {
       this.isLinked = this.linkCheckbox.checked; // Checked = linked
@@ -47,6 +52,10 @@ export class UIControls {
         this.widthSlider.value = this.heightSlider.value;
         this.updateSliderValues();
         this.updateTileSize();
+      }
+      // Update URL to reflect new link state
+      if (this.app && typeof this.app.updateUrlFromState === 'function') {
+        this.app.updateUrlFromState();
       }
     });
 
@@ -58,8 +67,27 @@ export class UIControls {
       radio.addEventListener('change', async () => {
         const useMirroring = radio.value === 'true';
         await this.textureManager.setTilingPattern(useMirroring);
+        // Update the small preview image
         this.updatePreviewImage();
+        // Update 3D preview if active
         this.updateThreePreview();
+        // If we're in background preview mode, also refresh the preview area background.
+        // Previously only the document.body background was updated, which isn't visible
+        // in the new layout that uses #previewArea for tiling.
+        if (this.app && this.app.currentPreviewMode === 'background') {
+          const previewArea = document.getElementById('previewArea');
+          if (previewArea) {
+            const dataURL = this.textureManager.export();
+            previewArea.style.backgroundImage = `url('${dataURL}')`;
+            previewArea.style.backgroundSize = `${this.textureManager.tileWidth}px ${this.textureManager.tileHeight}px`;
+            previewArea.style.backgroundRepeat = 'repeat';
+          }
+        }
+
+        // Update URL to reflect new pattern type
+        if (this.app && typeof this.app.updateUrlFromState === 'function') {
+          this.app.updateUrlFromState();
+        }
       });
     });
 
@@ -69,8 +97,12 @@ export class UIControls {
       this.downloadLink.href = dataURL;
     });
 
-    // Initialize slider values
+    // Initialize slider values and enforce link at start
+    if (this.isLinked) {
+      this.heightSlider.value = this.widthSlider.value;
+    }
     this.updateSliderValues();
+    this.updateTileSize();
   }
 
   updateSliderValues() {
@@ -84,20 +116,29 @@ export class UIControls {
     const linkIcon = document.getElementById('linkIcon');
     if (linkIcon) {
       if (this.isLinked) {
-        linkIcon.src = './img/link_a.png';
+        linkIcon.src = './assets/link-icon-linked.png';
       } else {
-        linkIcon.src = './img/link_b.png';
+        linkIcon.src = './assets/link-icon-unlinked.png';
       }
     }
   }
 
+  updateTileSizeAndUrl() {
+    this.updateTileSize();
+    if (this.app && typeof this.app.updateUrlFromState === 'function') {
+      this.app.updateUrlFromState();
+    }
+  }
+
   updateTileSize() {
-    const width = parseInt(this.widthSlider.value) * 50;
-    const height = parseInt(this.heightSlider.value) * 50;
+    const widthSteps = parseInt(this.widthSlider.value);
+    const heightSteps = parseInt(this.heightSlider.value);
+    const width = widthSteps * 50;
+    const height = heightSteps * 50;
     this.textureManager.setTileSize(width, height);
     // Update preview image and background after tile size change
     this.updatePreviewImage();
-    this.updateThreePreview();
+    this.updateThreePreview({ widthSteps, heightSteps });
     // Update background if in background mode
     if (this.app && this.app.currentPreviewMode === 'background') {
       const previewArea = document.getElementById('previewArea');
@@ -114,10 +155,10 @@ export class UIControls {
     this.previewImage.src = dataURL;
   }
 
-  updateThreePreview() {
+  updateThreePreview(tileSteps) {
     if (this.app && this.app.threePreview && this.app.currentPreviewMode !== 'background') {
       const dataURL = this.textureManager.export();
-      this.app.threePreview.updateTexture(dataURL);
+      this.app.threePreview.updateTexture(dataURL, tileSteps);
     }
   }
 }

@@ -9,6 +9,7 @@ import { UIControls } from './ui/controls.js';
 import { ThemeManager } from './ui/themeManager.js';
 import { ThreePreview } from './ui/threePreview.js';
 import { toDataURL } from './utils/imageLoader.js';
+import { getUrlState, setUrlState } from './utils/helpers.js';
 
 class TextureReCreatorApp {
   constructor() {
@@ -25,11 +26,21 @@ class TextureReCreatorApp {
 
   async init() {
     try {
+      // Read initial state from URL (if any)
+      const urlState = getUrlState();
+
       // Initialize theme manager
       this.themeManager = new ThemeManager();
 
       // Initialize texture manager
       this.textureManager = new TextureManager(this.canvas, this.previewImage);
+
+      // Initialize 3D preview mode tracking
+      this.currentPreviewMode = 'background';
+      this.threePreview = null;
+
+      // Apply URL state to controls and preview mode before loading texture
+      this.applyInitialUrlState(urlState);
 
       // Initialize UI controls (pass app reference for 3D preview updates)
       this.controls = new UIControls(this.textureManager, this);
@@ -42,19 +53,100 @@ class TextureReCreatorApp {
       // Initialize file input button
       this.initFileInput();
 
-      // Initialize 3D preview
-      this.currentPreviewMode = 'background';
-      this.threePreview = null;
+      // Initialize 3D/Background preview toggle buttons
       this.initPreviewModes();
 
-      // Load default texture
+      // Load default texture (or URL-specified one in future)
       await this.loadDefaultTexture();
+
+      // Ensure the preview mode is applied once after texture load
+      this.setPreviewMode(this.currentPreviewMode || 'background');
+
+      // After initial setup, sync current state back into URL so user can share it
+      this.updateUrlFromState();
 
       console.log('✅ Texture reCreator initialized successfully');
     } catch (error) {
       console.error('Failed to initialize application:', error);
       this.showError('Failed to initialize application. Please refresh the page.');
     }
+  }
+
+  applyInitialUrlState(urlState) {
+    // Tile size from URL (?w=16&h=16)
+    const widthSlider = document.getElementById('setWidthSlider');
+    const heightSlider = document.getElementById('setheightSlider');
+    const linkCheckbox = document.getElementById('cb1');
+    const patternRadios = document.getElementsByName('type_s');
+
+    if (!widthSlider || !heightSlider || !linkCheckbox || !patternRadios) return;
+
+    const w = parseInt(urlState.w, 10);
+    const h = parseInt(urlState.h, 10);
+    const link = urlState.link;
+    const pattern = urlState.pattern; // 'standard' | 'mirror'
+    const mode = urlState.mode; // 'background' | 'sphere' | 'cloth' | 'cube'
+
+    if (!Number.isNaN(w)) {
+      widthSlider.value = Math.min(Math.max(w, parseInt(widthSlider.min, 10)), parseInt(widthSlider.max, 10));
+    }
+    if (!Number.isNaN(h)) {
+      heightSlider.value = Math.min(Math.max(h, parseInt(heightSlider.min, 10)), parseInt(heightSlider.max, 10));
+    }
+
+    if (link === '0' || link === 'false') {
+      linkCheckbox.checked = false;
+    } else if (link === '1' || link === 'true') {
+      linkCheckbox.checked = true;
+    }
+
+    // Pattern (fallback to existing defaults if param missing)
+    if (pattern === 'mirror' || pattern === 'standard') {
+      patternRadios.forEach((radio) => {
+        if (pattern === 'mirror') {
+          radio.checked = radio.value === 'true';
+        } else {
+          radio.checked = radio.value === 'false';
+        }
+      });
+    }
+
+    // Preview mode
+    if (mode === 'background' || mode === 'sphere' || mode === 'cloth' || mode === 'cube') {
+      this.currentPreviewMode = mode;
+      const modeButtons = document.querySelectorAll('.mode-option');
+      modeButtons.forEach((btn) => {
+        if (btn.dataset.mode === mode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  updateUrlFromState() {
+    const widthSlider = document.getElementById('setWidthSlider');
+    const heightSlider = document.getElementById('setheightSlider');
+    const linkCheckbox = document.getElementById('cb1');
+    const patternRadios = document.getElementsByName('type_s');
+
+    if (!widthSlider || !heightSlider || !linkCheckbox || !patternRadios) return;
+
+    const w = parseInt(widthSlider.value, 10);
+    const h = parseInt(heightSlider.value, 10);
+    const link = linkCheckbox.checked ? '1' : '0';
+
+    let pattern = 'standard';
+    patternRadios.forEach((radio) => {
+      if (radio.checked) {
+        pattern = radio.value === 'true' ? 'mirror' : 'standard';
+      }
+    });
+
+    const mode = this.currentPreviewMode || 'background';
+
+    setUrlState({ w, h, link, pattern, mode }, { replace: true });
   }
 
   initFileInput() {
@@ -90,6 +182,9 @@ class TextureReCreatorApp {
         // Update active button
         modeButtons.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
+
+        // Persist updated mode in URL
+        this.updateUrlFromState();
       });
     });
   }
@@ -141,7 +236,9 @@ class TextureReCreatorApp {
         if (mode === 'sphere') {
           previewInfo.textContent = '3D Sphere preview - Rotating sphere with your texture applied';
         } else if (mode === 'cloth') {
-          previewInfo.textContent = '3D Cloth preview - Fabric draped on table with your texture';
+          previewInfo.textContent = '3D Wall preview - Draped fabric wall with vertical folds';
+        } else if (mode === 'cube') {
+          previewInfo.textContent = '3D Cube preview - Rotating cube with your texture applied';
         }
       }
     }
@@ -165,6 +262,9 @@ class TextureReCreatorApp {
         const textureDataURL = this.textureManager.export();
         this.threePreview.updateTexture(textureDataURL);
       }
+
+      // Persist any texture-driven changes (tile size, pattern, etc.)
+      this.updateUrlFromState();
     } catch (error) {
       console.error('Failed to load texture:', error);
       this.showError('Failed to load texture. Please try a different image.');
@@ -173,14 +273,31 @@ class TextureReCreatorApp {
 
   async loadDefaultTexture() {
     try {
-      const dataURL = await toDataURL('img/sam-1.jpg');
+      // Use texture-original.jpg as the default texture
+      const dataURL = await toDataURL('assets/texture-original.jpg');
       await this.loadTexture(dataURL);
 
-      // Set default tile size
-      document.getElementById('setWidthSlider').value = 3;
-      document.getElementById('setheightSlider').value = 3;
-      this.controls.updateSliderValues();
-      this.controls.updateTileSize();
+      // Set default tile size to 16 only if URL didn't override it
+      const urlState = getUrlState();
+      const hasWidth = urlState.w !== undefined;
+      const hasHeight = urlState.h !== undefined;
+
+      if (!hasWidth || !hasHeight) {
+        const widthSlider = document.getElementById('setWidthSlider');
+        const heightSlider = document.getElementById('setheightSlider');
+        if (widthSlider && heightSlider) {
+          widthSlider.value = 16;
+          heightSlider.value = 16;
+        }
+        this.controls.updateSliderValues();
+        this.controls.updateTileSize();
+      } else {
+        // If URL provided dimensions, ensure texture manager uses them
+        this.controls.updateTileSize();
+      }
+
+      // Sync final defaults/URL-based state back into URL
+      this.updateUrlFromState();
     } catch (error) {
       console.warn('Could not load default texture:', error);
     }

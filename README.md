@@ -2,19 +2,16 @@
 
 > A modern, high-performance online tool for testing and creating seamless texture patterns for 3D rendering
 
+**Texture reCreator** is a free, browser-based **seamless texture tiling tool** built for:
+- 3D artists and game developers
+- PBR / material authoring workflows
+- Backgrounds and patterns for web & graphic design
+
+Upload any texture, preview **standard or mirror tiling** in real time, and **download a seamless texture** ready for engines like Blender, Unreal Engine, Unity, and WebGL.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Modern Stack](https://img.shields.io/badge/Stack-Modern-green.svg)](https://vitejs.dev/)
-
-## ✨ Features
-
-- 🖼️ **Drag & Drop Interface** - Simply drag your texture image onto the page
-- 🔄 **Two Tiling Patterns** - Standard tiling and mirror tiling for seamless textures
-- 📐 **Adjustable Tile Size** - Control width and height independently or linked
-- 🌓 **Dark Mode Support** - Automatic theme detection with manual toggle
-- 📱 **Fully Responsive** - Works perfectly on desktop, tablet, and mobile
-- ⚡ **Optimized Performance** - Web Workers and debouncing for smooth operation
-- 💾 **Instant Download** - Export your tiled textures in high quality
-- ♿ **Accessible** - ARIA labels and keyboard navigation support
+[![Deploy](https://github.com/akshaynikhare/Texture-reCreator/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/akshaynikhare/Texture-reCreator/actions/workflows/deploy.yml)
 
 ## 🚀 Live Demo
 
@@ -24,25 +21,25 @@ Visit the live application: [https://akshaynikhare.github.io/Texture-reCreator/]
 
 ### Light Mode
 <p align="center">
-  <img src="img/sam_i.jpg" width="300" alt="Original texture">
-  <img src="img/sam_i_ren.jpg" width="300" alt="Rendered texture">
+  <img src="assets/texture-original.jpg" width="300" alt="Original texture">
+  <img src="assets/texture-original-rendered.jpg" width="300" alt="Rendered texture">
 </p>
 
 ### Tiling Patterns
 
 **Standard Tiling**
 <p align="center">
-  <img src="img/sam_f.jpg" width="300" alt="Standard tiling pattern">
+  <img src="assets/texture-standard-tiling.jpg" width="300" alt="Standard tiling pattern">
 </p>
 
 **Mirror Tiling** (for seamless textures)
 <p align="center">
-  <img src="img/sam_f_nl.jpg" width="300" alt="Mirror tiling pattern">
+  <img src="assets/texture-mirror-tiling.jpg" width="300" alt="Mirror tiling pattern">
 </p>
 
 **Final Result**
 <p align="center">
-  <img src="img/sam_f_ren.jpg" width="300" alt="Final rendered texture">
+  <img src="assets/texture-final-rendered.jpg" width="300" alt="Final rendered texture">
 </p>
 
 ## 🎯 How It Works
@@ -57,6 +54,21 @@ Texture reCreator helps you test if your texture images will tile seamlessly in 
 4. **Download Result** - Save your perfectly tiled texture
 
 The mirror tiling technique flips the image horizontally and vertically at the edges, eliminating visible seams when the texture repeats.
+
+This makes Texture reCreator ideal for quickly checking if a **photo, scan, or painted texture** will loop cleanly as:
+- a game environment texture
+- a material in 3D renderers (Blender, Maya, 3ds Max, Cinema 4D, etc.)
+- a repeating background on websites or UI components.
+
+## 🧩 Use Cases
+
+Common ways people use Texture reCreator:
+
+- **Game development** – test ground, wall, and prop textures for visible seams
+- **3D rendering** – preview PBR albedo/diffuse maps before sending them to a material editor
+- **Environment art** – quickly check tiling for foliage, rocks, bricks, and fabrics
+- **Web & UI design** – create repeating backgrounds and subtle noise textures
+- **Education & tutorials** – demonstrate how mirror tiling removes seams in textures
 
 ## 🛠️ Technology Stack
 
@@ -128,7 +140,7 @@ Texture-reCreator/
 │   │   └── theme.css
 │   └── main.js            # Application entry point
 ├── docs/                  # Documentation
-├── img/                   # Image assets
+├── assets/                # Image assets
 ├── index.html             # Main HTML file
 ├── package.json           # Dependencies
 └── vite.config.js         # Vite configuration
@@ -136,11 +148,8 @@ Texture-reCreator/
 
 ## 📚 Documentation
 
-- [Architecture Guide](docs/ARCHITECTURE.md) - System design and code organization
-- [API Documentation](docs/API.md) - Detailed API reference
-- [User Guide](docs/USER_GUIDE.md) - Complete usage instructions
 - [Deployment Guide](docs/DEPLOYMENT.md) - GitHub Pages deployment instructions
-- [Contributing Guide](CONTRIBUTING.md) - How to contribute
+- [Contributing Guide](docs/CONTRIBUTING.md) - How to contribute
 
 ## 🎨 Usage Examples
 
@@ -174,7 +183,7 @@ Texture-reCreator/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are welcome! Please read our [Contributing Guide](docs/CONTRIBUTING.md) for details.
 
 ### Development Workflow
 
