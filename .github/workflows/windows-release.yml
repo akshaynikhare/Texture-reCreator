@@ -47,7 +47,8 @@ jobs:
           fi
 
       - name: Create output directory
-        run: mkdir -p release
+        shell: pwsh
+        run: New-Item -ItemType Directory -Force -Path release
 
       - name: Copy EXE and dependencies
         shell: pwsh
@@ -90,10 +91,10 @@ jobs:
               
               <StandardDirectory Id="ProgramFilesFolder">
                 <Directory Id="INSTALLFOLDER" Name="Texture-reCreator">
-                  <Component Id="MainExecutable" Guid="A061DB98-09EC-45E6-81C4-C66363234A4F">
+                  <Component Id="MainExecutable" Guid="*">
                     <File Id="TextureReCreatorExe" Source="release\Texture-reCreator.exe" KeyPath="yes" />
                   </Component>
-                  <Component Id="ConfigFile" Guid="A061DB98-09EC-45E6-81C4-C66363234A50">
+                  <Component Id="ConfigFile" Guid="*">
                     <File Id="AppConfig" Source="release\Texture-reCreator.exe.config" />
                   </Component>
                 </Directory>
@@ -101,7 +102,7 @@ jobs:
               
               <StandardDirectory Id="ProgramMenuFolder">
                 <Directory Id="ApplicationProgramsFolder" Name="Texture-reCreator">
-                  <Component Id="ApplicationShortcut" Guid="A061DB98-09EC-45E6-81C4-C66363234A51">
+                  <Component Id="ApplicationShortcut" Guid="*">
                     <Shortcut Id="ApplicationStartMenuShortcut"
                               Name="Texture-reCreator"
                               Target="[INSTALLFOLDER]Texture-reCreator.exe"
