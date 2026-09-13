@@ -54,7 +54,7 @@ export function clamp(value, min, max) {
  * @returns {string} - Base path with trailing slash
  */
 export function getBasePath() {
-  return '/Texture-reCreator/';
+  return import.meta.env?.BASE_URL || '/Texture-reCreator/';
 }
 
 /**
