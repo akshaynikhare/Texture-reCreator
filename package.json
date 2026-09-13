@@ -1,7 +1,7 @@
 {
   "name": "texture-recreator",
   "version": "2.0.0",
-  "description": "Modern online tool to check image tiling for 3D texture rendering with seamless pattern generation",
+  "description": "Free online seamless texture generator & 3D PBR material viewer with real-time Three.js lighting, 4-way mirror tiling, and instant export",
   "type": "module",
   "scripts": {
     "dev": "vite",
