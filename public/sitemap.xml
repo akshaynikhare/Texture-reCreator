@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://akshaynikhare.github.io/Texture-reCreator/</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://akshaynikhare.github.io/Texture-reCreator/assets/screenshots/hero-studio-sphere.png</image:loc>
+      <image:title>Texture reCreator Studio 2.5 — Real-Time 3D PBR Seamless Texture Tiling</image:title>
+      <image:caption>Interactive 3D Three.js studio with 4-way mirror seamless texture generation, soft contact shadows, and Photoshop-style proportional controls</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://akshaynikhare.github.io/Texture-reCreator/assets/screenshots/150mm-l-wall-room.png</image:loc>
+      <image:title>150mm Architectural L-Shaped Wall 3D Inspection</image:title>
+      <image:caption>Realistic architectural interior room showing seamless texture tiling with calibrated shadows</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://akshaynikhare.github.io/Texture-reCreator/assets/screenshots/3d-drape-textile.png</image:loc>
+      <image:title>3D Hanging Drape Fabric Inspection</image:title>
+      <image:caption>Realistic curtain fabric folds with hanging rod, rings, and sunset studio lighting</image:caption>
+    </image:image>
+  </url>
+</urlset>

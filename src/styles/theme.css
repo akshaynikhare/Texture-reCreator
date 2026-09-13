@@ -1,86 +1,75 @@
 /**
- * Theme styles - Dark mode support
+ * Texture reCreator Studio - Theme Support
+ * Dark & Light Studio presets with smooth CSS transitions
  */
 
-/* Dark Theme Colors */
+/* Dark Studio Theme (Default) */
 [data-theme='dark'] {
-  --bg-primary: #1a202c;
-  --bg-secondary: #2d3748;
-  --bg-glass: rgba(45, 55, 72, 0.85);
-  --text-primary: #f7fafc;
-  --text-secondary: #e2e8f0;
-  --text-muted: #a0aec0;
-  --accent-primary: #63b3ed;
-  --accent-hover: #4299e1;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+  --bg-app: #090d16;
+  --bg-sidebar: #0f1523;
+  --bg-card: rgba(22, 30, 46, 0.7);
+  --bg-card-hover: rgba(30, 41, 62, 0.85);
+  --bg-glass: rgba(15, 21, 35, 0.75);
+  --bg-input: rgba(10, 15, 26, 0.8);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.1);
+  --border-active: #38bdf8;
+
+  --accent-cyan: #38bdf8;
+  --accent-cyan-glow: rgba(56, 189, 248, 0.25);
+  --accent-indigo: #6366f1;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #090d16;
 }
 
-/* Theme toggle button */
-.theme-toggle {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  background: var(--bg-glass);
-  border: 1px solid var(--border-color);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 100;
+/* Light Studio Theme (Clean Ceramic / Architect Gray) */
+[data-theme='light'] {
+  --bg-app: #f1f5f9;
+  --bg-sidebar: #ffffff;
+  --bg-card: rgba(248, 250, 252, 0.9);
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-input: #ffffff;
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-card: rgba(0, 0, 0, 0.1);
+  --border-active: #0284c7;
+
+  --accent-cyan: #0284c7;
+  --accent-cyan-glow: rgba(2, 132, 199, 0.2);
+  --accent-indigo: #4f46e5;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
 }
 
-.theme-toggle:hover {
-  transform: scale(1.1) rotate(15deg);
-  box-shadow: var(--shadow-md);
+[data-theme='light'] .camera-hint-badge {
+  background: rgba(255, 255, 255, 0.9);
+  color: #475569;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.theme-toggle:active {
-  transform: scale(0.95);
+[data-theme='light'] .preview-info-overlay {
+  background: linear-gradient(to top, rgba(203, 213, 225, 0.8) 0%, transparent 100%);
 }
 
-/* Dark mode specific adjustments */
-[data-theme='dark'] .instructions {
-  background: linear-gradient(135deg, rgba(99, 179, 237, 0.15), rgba(102, 126, 234, 0.15));
+[data-theme='light'] .modern-slider {
+  background: rgba(0, 0, 0, 0.1);
 }
 
-[data-theme='dark'] .radio-label {
-  background: rgba(0, 0, 0, 0.7);
-  color: var(--text-primary);
-}
-
-[data-theme='dark'] input[type='range'] {
-  background: linear-gradient(
-    to right,
-    var(--accent-primary) 0%,
-    rgba(255, 255, 255, 0.1) 0%
-  );
-}
-
-[data-theme='dark'] .error-message {
-  background: #fc8181;
-  color: #1a202c;
-}
-
-/* Smooth theme transition */
+/* Smooth Transitions between theme switches */
 body,
-.content,
-.theme-toggle,
-h1,
-.subtitle,
-.credits,
-.section-title,
-.control-label,
-input[type='range'],
-.type-cc,
-.download-link {
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+.sidebar,
+.control-card,
+.viewport-mode-pills,
+.viewport-tool-btn,
+.pattern-card-inner,
+.upload-zone {
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }

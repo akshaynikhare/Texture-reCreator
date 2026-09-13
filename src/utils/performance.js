@@ -130,6 +130,7 @@ export const requestAnimFrame = (function () {
 export function clearCanvas(ctx, width, height) {
   // Setting width/height is faster than clearRect for large canvases
   if (width * height > 1000000) {
+    // eslint-disable-next-line no-self-assign
     ctx.canvas.width = ctx.canvas.width;
   } else {
     ctx.clearRect(0, 0, width, height);

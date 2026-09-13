@@ -40,15 +40,12 @@ export class TextureManager {
   }
 
   /**
-   * Updates the background preview with current texture
+   * Updates the texture preview thumbnail
    */
   updatePreview() {
     const dataURL = this.renderer.exportAsDataURL();
-    document.body.style.backgroundImage = `url('${dataURL}')`;
-    document.body.style.backgroundSize = `${this.tileWidth}px ${this.tileHeight}px`;
-    document.body.style.backgroundRepeat = 'repeat';
 
-    // Update preview thumbnail
+    // Update preview thumbnail in export panel
     if (this.previewElement) {
       this.previewElement.src = dataURL;
     }

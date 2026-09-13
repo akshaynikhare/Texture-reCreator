@@ -1,92 +1,100 @@
-# 🎨 Texture reCreator
+# 🎨 Texture reCreator • STUDIO 2.5
 
-> A modern, high-performance online tool for testing and creating seamless texture patterns for 3D rendering
-
-**Texture reCreator** is a free, browser-based **seamless texture tiling tool** built for:
-- 3D artists and game developers
-- PBR / material authoring workflows
-- Backgrounds and patterns for web & graphic design
-
-Upload any texture, preview **standard or mirror tiling** in real time, and **download a seamless texture** ready for engines like Blender, Unreal Engine, Unity, and WebGL.
+> A modern, high-performance online tool for creating seamless texture patterns and inspecting materials in real-time 3D PBR studio environments.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Modern Stack](https://img.shields.io/badge/Stack-Modern-green.svg)](https://vitejs.dev/)
-[![Deploy](https://github.com/akshaynikhare/Texture-reCreator/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/akshaynikhare/Texture-reCreator/actions/workflows/deploy.yml)
+[![Three.js](https://img.shields.io/badge/Three.js-0.160+-black.svg?logo=three.js)](https://threejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.3+-646CFF.svg?logo=vite)](https://vitejs.dev/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-emerald.svg)](https://akshaynikhare.github.io/Texture-reCreator/)
+
+---
 
 ## 🚀 Live Demo
 
-Visit the live application: [https://akshaynikhare.github.io/Texture-reCreator/](https://akshaynikhare.github.io/Texture-reCreator/)
+**Experience the studio live:**  
+👉 **[https://akshaynikhare.github.io/Texture-reCreator/](https://akshaynikhare.github.io/Texture-reCreator/)**
 
-## 📸 Screenshots
+---
 
-### Light Mode
+## 📸 Studio Showcase
+
 <p align="center">
-  <img src="assets/texture-original.jpg" width="300" alt="Original texture">
-  <img src="assets/texture-original-rendered.jpg" width="300" alt="Rendered texture">
+  <img src="assets/screenshots/hero-studio-sphere.png" alt="Texture reCreator Studio 2.5 Hero" width="100%">
 </p>
 
-### Tiling Patterns
+---
 
-**Standard Tiling**
-<p align="center">
-  <img src="assets/texture-standard-tiling.jpg" width="300" alt="Standard tiling pattern">
-</p>
+## ✨ Key Features
 
-**Mirror Tiling** (for seamless textures)
-<p align="center">
-  <img src="assets/texture-mirror-tiling.jpg" width="300" alt="Mirror tiling pattern">
-</p>
+### 🧊 1. High-Fidelity Three.js 3D PBR Studio
+- **6 Inspection Geometries**:
+  - **3D Sphere**: Smooth spherical mapping for testing curved reflection and specular highlights.
+  - **3D Cube**: Hard surface bevels for checking edge continuity and seam alignment.
+  - **3D Column**: Cylindrical wrap for checking vertical and circumferential tiling.
+  - **3D Drape**: Realistic hanging textile with vertical accordion pleats, bottom ripples, hanging curtain rod, finials, and contact shadows.
+  - **3D Room (150mm L-Shaped Wall)**: Architectural 150mm wall with seamless flush 90° corner, matte gray exterior/top/ends, and texture mapped exclusively to interior walls with slim baseboard skirting.
+  - **2D Seamless Wall**: Flat plane aligned straight-on for orthographic texture review.
+- **Permanent Photography Cyclorama**: Clean, daylight grayish-white studio backdrop with calibrated soft PCF directional shadows and ground ambient occlusion.
+- **4 Studio Lighting Setups**: Quick-switch presets floating in the viewport (`Studio`, `Sunset`, `Moody`, `Clean`).
+- **PBR Surface Shaders**: Real-time sliders for **Roughness (Gloss)**, **3D Bump Depth** (automatic procedural normal/bump generation), and **Metallic Sheen**.
+- **Interactive Turntable**: Auto-rotate inspection with smart drag-to-stop detection and camera centering.
 
-**Final Result**
-<p align="center">
-  <img src="assets/texture-final-rendered.jpg" width="300" alt="Final rendered texture">
-</p>
+---
 
-## 🎯 How It Works
+### 🎛️ 2. Photoshop-Style Dimension & Scale Controls
+- **Proportional Constraint (1 Slider vs. 2 Sliders)**:
+  - **Linked (`🔗 Linked`)**: Shows **1 single master slider** for uniform repetition (`Repetition (W & H)`), keeping the interface compact and clutter-free.
+  - **Unlinked (`⛓ Unlinked`)**: Dynamically reveals **2 independent sliders** (`Width (W)` and `Height (H)`) for non-square aspect ratio scaling.
+- **Precision Numeric Badges (Scrubby Inputs)**: Interactive number chips (`[ 16 ] ×`) with two-way binding — drag the slider or type an exact integer directly.
+- **Active Slider Track Fill**: Dynamic CSS gradient fills tracking the slider thumb position.
+- **Quick Preset Multipliers**: Fast-jump buttons (`2×`, `4×`, `8×`, `16×`, `24×`).
+- **Segmented Tiling Algorithm Selector**: Compact pro tabs for switching between:
+  - **Standard**: Direct tile repeat.
+  - **4-Way Mirror**: Automatic edge mirroring for 100% seamless boundaries.
 
-Texture reCreator helps you test if your texture images will tile seamlessly in 3D applications:
+---
 
-1. **Upload Your Texture** - Drag and drop any image file
-2. **Choose Pattern Type**:
-   - **Standard**: Simple 2x2 grid repetition
-   - **Mirror**: Flips edges to create seamless patterns
-3. **Adjust Tile Size** - Use sliders to preview different tile sizes
-4. **Download Result** - Save your perfectly tiled texture
+### 📤 3. Export & Workflow Integrations
+- **Live Resolution Badge**: Displays tiled texture dimensions in real time (e.g. `512 × 512 px`).
+- **Download Texture**: Save high-resolution seamless textures ready for Blender, Unreal Engine, Unity, Substance, or WebGL.
+- **Copy to Clipboard**: One-click copy for pasting textures straight into Figma, Photoshop, or Slack.
+- **3D Snap**: Instant high-resolution screenshot export from the 3D viewport.
 
-The mirror tiling technique flips the image horizontally and vertically at the edges, eliminating visible seams when the texture repeats.
+---
 
-This makes Texture reCreator ideal for quickly checking if a **photo, scan, or painted texture** will loop cleanly as:
-- a game environment texture
-- a material in 3D renderers (Blender, Maya, 3ds Max, Cinema 4D, etc.)
-- a repeating background on websites or UI components.
+## 🖼️ Gallery
 
-## 🧩 Use Cases
+| 1 Slider (Linked Mode) | 2 Sliders (Unlinked Mode) |
+| :---: | :---: |
+| <img src="assets/screenshots/hero-studio-sphere.png" width="450" alt="Linked 1 Slider" /> | <img src="assets/screenshots/photoshop-unlinked-sliders.png" width="450" alt="Unlinked 2 Sliders" /> |
 
-Common ways people use Texture reCreator:
+| 3D Drape (Textile Folds & Sunset Light) | 150mm L-Shaped Wall Room |
+| :---: | :---: |
+| <img src="assets/screenshots/3d-drape-textile.png" width="450" alt="3D Drape" /> | <img src="assets/screenshots/150mm-l-wall-room.png" width="450" alt="150mm L Wall" /> |
 
-- **Game development** – test ground, wall, and prop textures for visible seams
-- **3D rendering** – preview PBR albedo/diffuse maps before sending them to a material editor
-- **Environment art** – quickly check tiling for foliage, rocks, bricks, and fabrics
-- **Web & UI design** – create repeating backgrounds and subtle noise textures
-- **Education & tutorials** – demonstrate how mirror tiling removes seams in textures
+| 3D Cube (Edge Seams) | 3D Column (Cylinder Wrap) |
+| :---: | :---: |
+| <img src="assets/screenshots/3d-cube-inspection.png" width="450" alt="3D Cube" /> | <img src="assets/screenshots/3d-cylinder-column.png" width="450" alt="3D Column" /> |
+
+---
 
 ## 🛠️ Technology Stack
 
-- **Build Tool**: [Vite](https://vitejs.dev/) - Lightning-fast build tool
-- **JavaScript**: ES6+ modules with modern syntax
-- **Canvas API**: HTML5 Canvas for texture manipulation
-- **CSS**: Modern CSS with CSS Grid, Flexbox, and CSS Variables
-- **Performance**: Web Workers for heavy operations
-- **Architecture**: Modular, maintainable code structure
+- **3D Rendering**: [Three.js](https://threejs.org/) (PCF soft shadows, PBR standard materials, environment mapping)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Core**: Vanilla JavaScript (ES6+ Modules), HTML5 Canvas API, Web Workers
+- **Styling**: Vanilla CSS (Custom Design System, Glassmorphism, CSS Custom Properties)
+- **Code Quality**: ESLint + Prettier
 
-## 📦 Installation
+---
+
+## 📦 Installation & Local Development
 
 ### Prerequisites
-
 - Node.js >= 18.0.0
 - npm or yarn
 
-### Local Development
+### Setup
 
 ```bash
 # Clone the repository
@@ -96,141 +104,63 @@ cd Texture-reCreator
 # Install dependencies
 npm install
 
-# Start development server
+# Start Vite development server
 npm run dev
 
-# Build for production
+# Run code linter
+npm run lint
+
+# Build production bundle
 npm run build
 
-# Preview production build
+# Preview production build locally
 npm run preview
 ```
 
-### Deployment to GitHub Pages
-
-The project automatically deploys to GitHub Pages using GitHub Actions:
-
-1. Push to the `main` or `master` branch
-2. GitHub Actions builds the project
-3. Built files are deployed to GitHub Pages
-4. Site is live at `https://akshaynikhare.github.io/Texture-reCreator/`
-
-See [Deployment Guide](docs/DEPLOYMENT.md) for detailed instructions.
+---
 
 ## 📁 Project Structure
 
 ```
 Texture-reCreator/
 ├── src/
-│   ├── core/              # Core texture processing logic
-│   │   ├── canvasRenderer.js
-│   │   └── textureManager.js
-│   ├── ui/                # UI components
-│   │   ├── controls.js
-│   │   ├── dragDrop.js
-│   │   └── themeManager.js
-│   ├── utils/             # Utility functions
-│   │   ├── helpers.js
-│   │   ├── imageLoader.js
-│   │   └── performance.js
-│   ├── workers/           # Web Workers
-│   │   └── imageProcessor.worker.js
-│   ├── styles/            # Stylesheets
-│   │   ├── main.css
-│   │   └── theme.css
-│   └── main.js            # Application entry point
-├── docs/                  # Documentation
-├── assets/                # Image assets
-├── index.html             # Main HTML file
-├── package.json           # Dependencies
-└── vite.config.js         # Vite configuration
+│   ├── core/                  # Core texture & canvas processing
+│   │   ├── canvasRenderer.js  # 2D tiling & 4-way mirror algorithms
+│   │   └── textureManager.js  # State orchestration & export pipeline
+│   ├── ui/                    # UI controllers & 3D viewport
+│   │   ├── controls.js        # Photoshop-style sliders, linking & inputs
+│   │   ├── dragDrop.js        # Drag-and-drop file uploader
+│   │   └── threePreview.js    # Three.js 3D scene, PBR shaders & models
+│   ├── utils/                 # Utilities & helpers
+│   │   ├── helpers.js         # Debounce & math helpers
+│   │   ├── imageLoader.js     # Image loading & caching
+│   │   └── performance.js     # FPS & performance monitoring
+│   ├── workers/               # Web Workers
+│   │   └── imageProcessor.worker.js # Multi-threaded canvas processing
+│   ├── styles/                # Styling & design system
+│   │   ├── main.css           # Core stylesheet & Photoshop studio theme
+│   │   └── theme.css          # Design tokens & color system
+│   └── main.js                # App entrypoint & URL state management
+├── assets/                    # Static textures, environment maps & icons
+│   ├── screenshots/           # High-resolution README showcases
+│   └── env/                   # Studio lighting HDR / maps
+├── docs/                      # Deployment & contributing guides
+├── index.html                 # Main application markup
+├── package.json               # Dependencies & scripts
+└── vite.config.js             # Vite bundler configuration
 ```
-
-## 📚 Documentation
-
-- [Deployment Guide](docs/DEPLOYMENT.md) - GitHub Pages deployment instructions
-- [Contributing Guide](docs/CONTRIBUTING.md) - How to contribute
-
-## 🎨 Usage Examples
-
-### Basic Usage
-
-1. Open the application in your browser
-2. Drag and drop a texture image onto the page
-3. Choose between Standard or Mirror tiling
-4. Adjust tile size using the sliders
-5. Click the preview to download your texture
-
-### Advanced Features
-
-- **Link/Unlink Dimensions**: Click the chain icon to control width and height independently
-- **Theme Toggle**: Click the theme button (top-right) to switch between light and dark modes
-- **Keyboard Accessible**: Use Tab and arrow keys to navigate controls
-
-## ⚡ Performance
-
-- **Debounced Updates**: Slider changes are debounced to reduce unnecessary renders
-- **Optimized Canvas**: Canvas operations are optimized for large images
-- **Memory Management**: Automatic cleanup of object URLs and resources
-- **Web Workers**: Heavy processing offloaded to background threads (when needed)
-
-## 🌐 Browser Support
-
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Opera (latest)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](docs/CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run linting (`npm run lint`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👨‍💻 Author
-
-**Akshay Nikhare**
-- Website: [akshay-nikhare.appspot.com](http://akshay-nikhare.appspot.com/)
-- GitHub: [@akshaynikhare](https://github.com/akshaynikhare)
-
-## 🙏 Acknowledgments
-
-- Thanks to all contributors who have helped improve this tool
-- Inspired by the need for quick texture testing in 3D workflows
-- Built with modern web technologies for optimal performance
-
-## 📈 Changelog
-
-### Version 2.0.0 (2025)
-
-- ✨ Complete modernization with Vite build system
-- 🎨 New modern UI with glassmorphism design
-- 🌓 Dark mode support with theme persistence
-- 📱 Fully responsive mobile-friendly layout
-- ⚡ Performance optimizations (debouncing, memory management)
-- ♿ Accessibility improvements (ARIA labels, keyboard navigation)
-- 📦 Modular ES6+ codebase
-- 📚 Comprehensive documentation
-- 🎯 Better UX with loading states and error handling
-
-### Version 1.0.0 (Original)
-
-- Basic texture tiling functionality
-- Standard and mirror tiling patterns
-- Drag and drop support
 
 ---
 
-<p align="center">Made with ❤️ for the 3D community</p>
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to check out the [issues page](https://github.com/akshaynikhare/Texture-reCreator/issues).
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+Developed by [Akshay Nikhare](http://akshay-nikhare.appspot.com/)
