@@ -1,265 +1,731 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Texture reCreator is a modern online tool to test and create seamless texture tiling patterns for 3D rendering, game assets, and digital art." />
-    <meta name="keywords" content="texture recreator, seamless texture tool, texture tiling, 3d texture, pbr texture, game texture, image tiling, texture preview, webgl, three.js" />
-    <meta name="author" content="Akshay Nikhare" />
+<html lang="en" data-theme="dark">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://akshaynikhare.github.io/Texture-reCreator/" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://akshaynikhare.github.io/Texture-reCreator/" />
-    <meta property="og:title" content="Texture reCreator - Seamless Texture Tiling Tool" />
-    <meta property="og:description" content="Upload any texture, preview standard or mirror tiling in real time, and download seamless textures for 3D and game engines." />
-    <meta property="og:image" content="https://akshaynikhare.github.io/Texture-reCreator/assets/texture-final-rendered.jpg" />
+  <!-- Primary SEO Meta Tags -->
+  <title>Texture reCreator Studio — Free Seamless Texture Generator & 3D PBR Viewer</title>
+  <meta name="title" content="Texture reCreator Studio — Free Seamless Texture Generator & 3D PBR Viewer" />
+  <meta name="description"
+    content="Free online tool to test seamless texture tiling and inspect materials in real-time 3D PBR with Three.js. Features 4-way mirror seamless patterns, soft shadows, Photoshop-style scaling controls, and instant export." />
+  <meta name="keywords"
+    content="seamless texture generator, texture tiling tool, 3d texture preview, threejs pbr viewer, seamless pattern maker, mirror tiling, bump map generator, game texture tool, blender textures, unreal engine textures" />
+  <meta name="author" content="Akshay Nikhare" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://akshaynikhare.github.io/Texture-reCreator/" />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Texture reCreator - Seamless Texture Tiling Tool" />
-    <meta name="twitter:description" content="Check and generate seamless texture tiling patterns for 3D rendering with an instant web-based preview." />
-    <meta name="twitter:image" content="https://akshaynikhare.github.io/Texture-reCreator/assets/texture-final-rendered.jpg" />
+  <!-- Google Site Verification (Google Search Console) -->
+  <meta name="google-site-verification" content="google-search-console-verification" />
 
-    <!-- PWA / Theme -->
-    <meta name="theme-color" content="#080b12" />
+  <!-- Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L5N4GY4YQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6L5N4GY4YQ', {
+      send_page_view: true
+    });
+  </script>
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Texture reCreator",
-        "url": "https://akshaynikhare.github.io/Texture-reCreator/",
-        "description": "Online tool to test and create seamless texture tiling patterns for 3D rendering, games, and digital art.",
-        "applicationCategory": "GraphicsApplication",
-        "operatingSystem": "Any",
-        "image": "https://akshaynikhare.github.io/Texture-reCreator/assets/texture-final-rendered.jpg",
-        "author": {
-          "@type": "Person",
-          "name": "Akshay Nikhare",
-          "url": "http://akshay-nikhare.appspot.com/"
-        }
-      }
-    </script>
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://akshaynikhare.github.io/Texture-reCreator/" />
+  <meta property="og:title" content="Texture reCreator Studio — Free Seamless Texture Generator & 3D PBR Viewer" />
+  <meta property="og:description"
+    content="Test, create, and inspect seamless textures in real-time 3D PBR with Three.js studio lighting and soft contact shadows. Free browser-based tool." />
+  <meta property="og:image"
+    content="https://akshaynikhare.github.io/Texture-reCreator/assets/screenshots/hero-studio-sphere.png" />
+  <meta property="og:image:width" content="1440" />
+  <meta property="og:image:height" content="900" />
+  <meta property="og:image:alt" content="Texture reCreator Studio 2.5 3D Preview" />
+  <meta property="og:site_name" content="Texture reCreator Studio" />
 
-    <title>Texture reCreator - Seamless Texture Tiling Tool</title>
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://akshaynikhare.github.io/Texture-reCreator/" />
+  <meta name="twitter:title" content="Texture reCreator Studio — Free Seamless Texture Generator & 3D PBR Viewer" />
+  <meta name="twitter:description"
+    content="Test, create, and inspect seamless textures in real-time 3D PBR with Three.js studio lighting and soft contact shadows. Free browser-based tool." />
+  <meta name="twitter:image"
+    content="https://akshaynikhare.github.io/Texture-reCreator/assets/screenshots/hero-studio-sphere.png" />
+  <meta name="twitter:creator" content="@akshaynikhare" />
 
+  <!-- Mobile & PWA Configuration -->
+  <meta name="theme-color" content="#0284c7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="./site.webmanifest" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Favicon & Styles -->
   <link rel="icon" href="./assets/texture-original.jpg" type="image/jpeg" />
   <link rel="stylesheet" href="./src/styles/main.css" />
   <link rel="stylesheet" href="./src/styles/theme.css" />
 
-  </head>
-  <body>
-    <!-- Split Screen Layout -->
-    <div class="app-layout">
-      <!-- Left Sidebar - Controls (20%) -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-content">
-          <!-- Header -->
-          <header class="sidebar-header">
+  <!-- Schema.org JSON-LD Structured Data for AEO, GEO & Search Engines -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://akshaynikhare.github.io/Texture-reCreator/#webapp",
+          "name": "Texture reCreator Studio",
+          "url": "https://akshaynikhare.github.io/Texture-reCreator/",
+          "description": "Free online 3D PBR studio to create seamless texture patterns, test tiling repetition, and inspect materials in real-time Three.js environments.",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "All modern browsers (Chrome, Edge, Firefox, Safari)",
+          "browserRequirements": "Requires WebGL support",
+          "inLanguage": "en",
+          "image": "https://akshaynikhare.github.io/Texture-reCreator/assets/screenshots/hero-studio-sphere.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "Akshay Nikhare",
+            "url": "http://akshay-nikhare.appspot.com/"
+          },
+          "featureList": [
+            "4-Way Mirror Seamless Tiling Algorithm",
+            "Three.js 3D PBR Inspection Studio",
+            "Calibrated Soft PCF Shadows & Studio Cyclorama",
+            "Photoshop-Style Single/Dual Slider Proportional Controls",
+            "6 Inspection Geometries (Sphere, Cube, Column, Drape, 150mm L-Wall Room, 2D Wall)",
+            "Real-Time Procedural Bump Mapping & Roughness Controls",
+            "One-Click Texture Download, Clipboard Copy & 3D Snap"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://akshaynikhare.github.io/Texture-reCreator/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I create a seamless texture online for free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Upload or drag-and-drop your image into Texture reCreator Studio and choose the '4-Way Mirror' tiling algorithm. The tool automatically flips the image across horizontal and vertical seams, eliminating visible tiling borders instantly."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between standard tiling and 4-way mirror tiling?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Standard tiling repeats the texture in a direct grid, which often reveals visible edge seams if the texture is not pre-seamless. 4-Way Mirror tiling reverses adjacent edge borders so corresponding pixels match seamlessly, creating a 100% seamless tileable texture."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I test my texture on 3D models before exporting to Blender or Unreal Engine?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Texture reCreator includes an interactive Three.js 3D studio. You can switch between a 3D Sphere, 3D Cube, 3D Column, 3D Drape (fabric folds), and a 150mm Architectural L-Shaped Room with live studio lighting and soft contact shadows."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I export seamless textures for 3D game engines and design apps?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Click 'Download Texture' to save the seamless high-resolution JPEG, use 'Copy' to copy directly to your clipboard for Figma or Photoshop, or use '3D Snap' to capture high-res viewport renders."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+  <!-- App Root Layout -->
+  <div class="app-layout">
+    <!-- Left Sidebar: Controls Studio -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-row">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 8h.01M8 16h.01M16 16h.01M8 8h.01M12 12h.01" />
+            </svg>
+          </div>
+          <div class="brand-text">
             <h1>Texture reCreator</h1>
-            <p class="subtitle">Seamless Texture Tool</p>
-          </header>
-
-          <!-- Image Upload Section -->
-          <section class="control-group">
-            <h2 class="group-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              Image
-            </h2>
-            <button id="selectImageBtn" class="btn-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="17 8 12 3 7 8"/>
-                <line x1="12" y1="3" x2="12" y2="15"/>
-              </svg>
-              Upload Image
-            </button>
-            <input type="file" id="fileInput" accept="image/*" style="display: none;" />
-            <p class="hint">Or drag & drop anywhere</p>
-          </section>
-
-          <!-- Tile Settings -->
-          <section class="control-group">
-            <h2 class="group-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-              Tile Settings
-            </h2>
-
-            <div class="control-item">
-              <label class="control-label">
-                Width
-                <span class="control-value" id="width-value">16</span>
-              </label>
-              <input
-                id="setWidthSlider"
-                type="range"
-                min="1"
-                max="20"
-                value="16"
-                class="slider"
-              />
-            </div>
-
-            <div class="control-item">
-              <label class="control-label">
-                Height
-                <span class="control-value" id="height-value">16</span>
-              </label>
-              <input
-                id="setheightSlider"
-                type="range"
-                min="1"
-                max="20"
-                value="16"
-                class="slider"
-              />
-            </div>
-
-            <div class="link-control">
-              <input type="checkbox" id="cb1" checked />
-              <label for="cb1" class="link-button">
-                <img src="./assets/link-icon-linked.png" class="link-icon" id="linkIcon" alt="Link" />
-                <span>Link Dimensions</span>
-              </label>
-            </div>
-          </section>
-
-          <!-- Tiling Pattern -->
-          <section class="control-group">
-            <h2 class="group-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="16 18 22 12 16 6"/>
-                <polyline points="8 6 2 12 8 18"/>
-              </svg>
-              Pattern Type
-            </h2>
-
-            <div class="pattern-options">
-              <div class="pattern-option">
-                <input type="radio" id="t1" name="type_s" value="false" checked />
-                <label for="t1">
-                  <img src="./assets/thumbnail-1.png" alt="Standard" />
-                  <span>Standard</span>
-                </label>
-              </div>
-
-              <div class="pattern-option">
-                <input type="radio" id="t2" name="type_s" value="true" />
-                <label for="t2">
-                  <img src="./assets/thumbnail-2.png" alt="Mirror" />
-                  <span>Mirror</span>
-                </label>
-              </div>
-            </div>
-          </section>
-
-          <!-- Preview Mode -->
-          <section class="control-group">
-            <h2 class="group-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-                <polyline points="2 17 12 22 22 17"/>
-                <polyline points="2 12 12 17 22 12"/>
-              </svg>
-              Preview Mode
-            </h2>
-
-            <div class="mode-options">
-              <button class="mode-option active" data-mode="background">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <path d="M3 9h18M9 21V9"/>
-                </svg>
-                <span>Background</span>
-              </button>
-
-              <button class="mode-option" data-mode="sphere">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                </svg>
-                <span>Sphere</span>
-              </button>
-
-              <button class="mode-option" data-mode="cloth">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 2v20M8 2v20M12 2v20M16 2v20M20 2v20"/>
-                </svg>
-                <span>Wall</span>
-              </button>
-
-              <button class="mode-option" data-mode="cube">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                  <line x1="12" y1="22.08" x2="12" y2="12"/>
-                </svg>
-                <span>Cube</span>
-              </button>
-            </div>
-          </section>
-
-          <!-- Download Section -->
-          <section class="control-group">
-            <h2 class="group-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Download
-            </h2>
-            <a id="dlnk" download="texture.jpg" class="btn-download">
-              <img id="cvs1" alt="Preview" />
-              <span>Download Texture</span>
-            </a>
-          </section>
-
-          <!-- Footer -->
-          <footer class="sidebar-footer">
-            <p>
-              <a href="http://akshay-nikhare.appspot.com/" target="_blank" rel="noopener">
-                © Akshay Nikhare
-              </a>
-            </p>
-          </footer>
-        </div>
-      </aside>
-
-      <!-- Right Preview Area (80%) -->
-      <main class="preview-area" id="previewArea">
-        <div class="preview-wrapper">
-          <!-- 3D Preview Container -->
-          <div id="threejs-preview" class="threejs-preview" style="display: none;"></div>
-
-          <!-- Preview Info Overlay -->
-          <div class="preview-info-overlay">
-            <p id="previewInfo">Background tiling mode - Upload an image to see it tile</p>
+            <span class="version-badge">Studio 2.5</span>
           </div>
         </div>
-      </main>
+        <p class="brand-subtitle">Seamless Tiling & 3D PBR Studio</p>
+      </div>
+
+      <div class="sidebar-content">
+        <!-- Section 1: Texture Input & Presets -->
+        <section class="control-card">
+          <div class="card-header">
+            <span class="card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </span>
+            <h2>Source Texture</h2>
+          </div>
+
+          <!-- Upload Dropzone Button -->
+          <button id="selectImageBtn" class="upload-zone" type="button">
+            <div class="upload-icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <div class="upload-labels">
+              <span class="upload-title">Upload Custom Texture</span>
+              <span class="upload-desc">Drop image anywhere or browse</span>
+            </div>
+          </button>
+          <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+
+          <!-- Preset Swatches Shelf -->
+          <div class="preset-shelf">
+            <span class="shelf-label">Instant Sample Presets</span>
+            <div class="preset-grid">
+              <button class="preset-chip active" data-preset-key="default" type="button" title="Linen Fabric Weave">
+                <span class="preset-dot" style="background: #a89f91;"></span>
+                <span>Fabric</span>
+              </button>
+              <button class="preset-chip" data-preset-key="mosaic" type="button" title="Ceramic Mosaic Tiles">
+                <span class="preset-dot" style="background: #3b82f6;"></span>
+                <span>Mosaic</span>
+              </button>
+              <button class="preset-chip" data-preset-key="marble" type="button" title="Stone & Marble">
+                <span class="preset-dot" style="background: #e2e8f0;"></span>
+                <span>Marble</span>
+              </button>
+              <button class="preset-chip" data-preset-key="geometric" type="button" title="Geometric Surface">
+                <span class="preset-dot" style="background: #8b5cf6;"></span>
+                <span>Pattern</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Seamless Tiling & Dimensions -->
+        <section class="control-card">
+          <div class="card-header">
+            <span class="card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+            </span>
+            <h2>Tiling Algorithm</h2>
+          </div>
+
+          <!-- Photoshop Segmented Algorithm Tabs -->
+          <div class="ps-pattern-tabs">
+            <label class="ps-pattern-tab active" id="tabStandard">
+              <input type="radio" id="t1" name="type_s" value="false" checked />
+              <span class="tab-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="8" height="8" rx="1" />
+                  <rect x="13" y="3" width="8" height="8" rx="1" />
+                  <rect x="3" y="13" width="8" height="8" rx="1" />
+                  <rect x="13" y="13" width="8" height="8" rx="1" />
+                </svg>
+              </span>
+              <span class="tab-text">
+                <span class="tab-title">Standard</span>
+                <span class="tab-subtitle">Direct repeat</span>
+              </span>
+            </label>
+
+            <label class="ps-pattern-tab" id="tabMirror">
+              <input type="radio" id="t2" name="type_s" value="true" />
+              <span class="tab-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3v18" />
+                  <path d="M3 12h18" />
+                  <circle cx="7.5" cy="7.5" r="2.5" />
+                  <circle cx="16.5" cy="7.5" r="2.5" />
+                  <circle cx="7.5" cy="16.5" r="2.5" />
+                  <circle cx="16.5" cy="16.5" r="2.5" />
+                </svg>
+              </span>
+              <span class="tab-text">
+                <span class="tab-title">4-Way Mirror</span>
+                <span class="tab-subtitle">100% Seamless</span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Dimensions Header with Photoshop Link Toggle -->
+          <div class="ps-dimension-header">
+            <span class="ps-dim-label" id="dimSectionLabel">Tiling Scale & Repetition</span>
+            <div class="ps-link-wrapper">
+              <input type="checkbox" id="cb1" checked hidden />
+              <button type="button" id="psLinkToggle" class="ps-link-btn active" title="Maintain Aspect Ratio (Linked)">
+                <svg class="chain-icon chain-linked" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+                <svg class="chain-icon chain-unlinked" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.2" style="display: none;">
+                  <path d="M18.84 12.25l1.72-1.71a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M5.16 11.75l-1.72 1.71a5 5 0 0 0 7.07 7.07l1.72-1.71" />
+                  <line x1="2" y1="2" x2="22" y2="22" />
+                </svg>
+                <span id="linkLabel">Linked</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tiling Sliders (1 slider when linked, 2 sliders when unlinked) -->
+          <div class="ps-sliders-container" id="slidersContainer">
+            <!-- Slider 1: Repetition (W & H when linked) / Width (when unlinked) -->
+            <div class="slider-row ps-slider-row" id="widthSliderRow">
+              <div class="slider-header">
+                <span class="slider-title" id="widthSliderTitle">Repetition (W & H)</span>
+                <div class="ps-num-badge">
+                  <input type="number" id="widthNumberInput" min="1" max="24" value="16" class="ps-num-input"
+                    aria-label="Repetition" />
+                  <span class="unit-label">×</span>
+                </div>
+                <span class="value-chip" id="width-value" style="display: none;">16</span>
+              </div>
+              <div class="slider-track-wrap">
+                <input id="setWidthSlider" type="range" min="1" max="24" value="16" class="modern-slider ps-slider" />
+              </div>
+            </div>
+
+            <!-- Slider 2: Height (Revealed only when unlinked) -->
+            <div class="slider-row ps-slider-row" id="heightSliderRow" style="display: none;">
+              <div class="slider-header">
+                <span class="slider-title" id="heightSliderTitle">Height Repetition (H)</span>
+                <div class="ps-num-badge">
+                  <input type="number" id="heightNumberInput" min="1" max="24" value="16" class="ps-num-input"
+                    aria-label="Height repetition" />
+                  <span class="unit-label">×</span>
+                </div>
+                <span class="value-chip" id="height-value" style="display: none;">16</span>
+              </div>
+              <div class="slider-track-wrap">
+                <input id="setheightSlider" type="range" min="1" max="24" value="16" class="modern-slider ps-slider" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Multipliers Bar -->
+          <div class="multiplier-link-bar ps-quick-bar">
+            <div class="quick-multipliers">
+              <span class="quick-title">Presets:</span>
+              <button type="button" class="tile-quick-btn" data-size="2">2×</button>
+              <button type="button" class="tile-quick-btn" data-size="4">4×</button>
+              <button type="button" class="tile-quick-btn" data-size="8">8×</button>
+              <button type="button" class="tile-quick-btn active" data-size="16">16×</button>
+              <button type="button" class="tile-quick-btn" data-size="24">24×</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: 3D Studio & Shadows Inspector -->
+        <section class="control-card" id="studio3DControls">
+          <div class="card-header">
+            <span class="card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+            </span>
+            <h2>3D Material & Surface</h2>
+          </div>
+
+          <!-- Material Properties -->
+          <div class="material-controls">
+            <div class="slider-row">
+              <div class="slider-header">
+                <span class="slider-title">Roughness (Gloss)</span>
+                <span class="value-chip" id="roughness-value">45%</span>
+              </div>
+              <input id="roughnessSlider" type="range" min="0" max="1" step="0.05" value="0.45" class="modern-slider" />
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-header">
+                <span class="slider-title">3D Bump Depth (PBR)</span>
+                <span class="value-chip" id="bump-value">30</span>
+              </div>
+              <input id="bumpSlider" type="range" min="0" max="0.1" step="0.005" value="0.03" class="modern-slider" />
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-header">
+                <span class="slider-title">Metallic Sheen</span>
+                <span class="value-chip" id="metalness-value">5%</span>
+              </div>
+              <input id="metalnessSlider" type="range" min="0" max="1" step="0.05" value="0.05" class="modern-slider" />
+            </div>
+          </div>
+
+          <!-- Turntable Switch -->
+          <div class="turntable-switch-row">
+            <div class="switch-info">
+              <span class="switch-title">Auto-Rotate Turntable</span>
+              <span class="switch-desc">Smooth inspection rotation</span>
+            </div>
+            <label class="modern-switch">
+              <input type="checkbox" id="autoRotateToggle" checked />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Section 4: Export Studio -->
+        <section class="control-card">
+          <div class="card-header">
+            <span class="card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </span>
+            <h2>Export Studio</h2>
+          </div>
+
+          <div class="export-preview-card">
+            <div class="export-img-wrapper">
+              <img id="cvs1" alt="Seamless Texture Preview" />
+              <span class="export-badge" id="exportResolutionBadge">Seamless Tile</span>
+            </div>
+            <div class="export-actions">
+              <a id="dlnk" download="seamless-texture.jpg" class="btn-action-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span>Download Texture</span>
+              </a>
+              <div class="action-btn-row">
+                <button type="button" id="copyTextureBtn" class="btn-action-secondary" title="Copy to clipboard">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  <span>Copy</span>
+                </button>
+                <button type="button" id="screenshotBtn" class="btn-action-secondary"
+                  title="Take high-res 3D screenshot">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                  <span>3D Snap</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <footer class="sidebar-footer">
+        <div class="footer-action-row">
+          <button type="button" id="openGuideBtn" class="footer-link-btn" title="About, Guide & FAQ">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            <span>Guide & FAQ</span>
+          </button>
+          <a href="https://github.com/akshaynikhare/Texture-reCreator" target="_blank" rel="noopener noreferrer"
+            class="footer-link-btn" title="View Source on GitHub">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+        <p class="copyright-line">
+          Crafted by
+          <a href="http://akshay-nikhare.appspot.com/" target="_blank" rel="noopener noreferrer">
+            Akshay Nikhare
+          </a>
+        </p>
+      </footer>
+    </aside>
+
+    <!-- Right Preview Viewport (Large Stage) -->
+    <main class="preview-area" id="previewArea">
+      <!-- Viewport Top Floating Mode Switcher -->
+      <div class="viewport-top-bar">
+        <div class="viewport-top-row">
+          <div class="viewport-mode-pills">
+            <button class="mode-option" data-mode="background" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+              <span>2D Seamless Wall</span>
+            </button>
+            <button class="mode-option active" data-mode="sphere" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+              </svg>
+              <span>3D Sphere</span>
+            </button>
+            <button class="mode-option" data-mode="cube" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+              </svg>
+              <span>3D Cube</span>
+            </button>
+            <button class="mode-option" data-mode="cylinder" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="5" rx="9" ry="3" />
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+              </svg>
+              <span>3D Column</span>
+            </button>
+            <button class="mode-option" data-mode="cloth" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4c4 2 8 0 12 2s4 2 4 2v12c-4-2-8 0-12-2s-4-2-4-2V4z" />
+              </svg>
+              <span>3D Drape</span>
+            </button>
+            <button class="mode-option" data-mode="wall" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 21h18M3 7v14M21 7v14M3 7l9-4 9 4" />
+              </svg>
+              <span>3D Room</span>
+            </button>
+          </div>
+
+          <!-- Viewport Action Tools -->
+          <div class="viewport-actions">
+            <button id="resetCameraBtn" class="viewport-tool-btn" title="Reset camera view" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4l3 3" />
+              </svg>
+              <span>Center</span>
+            </button>
+            <button id="fullscreenBtn" class="viewport-tool-btn" title="Toggle Fullscreen" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lighting Rig Under Model Setting (New Row) -->
+        <div class="viewport-lighting-row">
+          <div class="viewport-lighting-pills">
+            <span class="lighting-pill-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+              <span>Lighting</span>
+            </span>
+            <button type="button" class="lighting-preset-btn active" data-lighting="studio">Studio</button>
+            <button type="button" class="lighting-preset-btn" data-lighting="warm">Sunset</button>
+            <button type="button" class="lighting-preset-btn" data-lighting="moody">Moody</button>
+            <button type="button" class="lighting-preset-btn" data-lighting="highkey">Clean</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Preview Container -->
+      <div class="preview-wrapper">
+        <div id="threejs-preview" class="threejs-preview"></div>
+
+        <!-- Interactive Camera Control Hint -->
+        <div class="camera-hint-badge" id="cameraHint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          <span>Left-click + drag to orbit • Right-click to pan • Scroll to zoom</span>
+        </div>
+
+        <!-- Bottom Info Bar -->
+        <div class="preview-info-overlay">
+          <p id="previewInfo">3D Studio Sphere • Soft contact shadows and specular highlights</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Guide & FAQ Modal for Users & Search Engine Answer Bots (AEO/GEO) -->
+  <dialog id="guideModal" class="guide-modal" aria-labelledby="guideModalTitle">
+    <div class="guide-modal-content">
+      <header class="guide-modal-header">
+        <div class="guide-title-wrap">
+          <div class="brand-icon small">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 8h.01M8 16h.01M16 16h.01M8 8h.01M12 12h.01" />
+            </svg>
+          </div>
+          <h2 id="guideModalTitle">Texture reCreator Studio — Documentation & FAQ</h2>
+        </div>
+        <button type="button" id="closeGuideBtn" class="guide-close-btn" aria-label="Close Guide">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="guide-modal-body">
+        <section class="guide-section">
+          <h3>Overview & 4-Way Mirror Seamless Algorithm</h3>
+          <p>
+            <strong>Texture reCreator Studio</strong> is a free, in-browser tool engineered for 3D artists, game
+            developers, architectural visualizers, and UI designers to test, generate, and preview seamless tileable
+            textures in real time.
+          </p>
+          <p>
+            Standard grid tiling creates obvious, distracting grid lines because opposite image boundaries rarely match.
+            The <strong>4-Way Mirror Algorithm</strong> reverses adjacent image tiles horizontally and vertically,
+            guaranteeing that touching boundary edges share identical pixel color and gradient values. The result is a
+            mathematically seamless texture without manual stamp or clone-tool retouching in photo software.
+          </p>
+        </section>
+
+        <section class="guide-section">
+          <h3>Interactive 3D PBR Inspection Rigs</h3>
+          <p>
+            Preview how textures react to curvature, contact lighting, and material relief across 6 dedicated inspection
+            environments powered by <strong>Three.js</strong> and soft PCF contact shadows:
+          </p>
+          <ul class="guide-features-list">
+            <li><strong>3D Sphere:</strong> Evaluates specular highlights, Fresnel reflectivity, and continuous radial
+              curvature.</li>
+            <li><strong>3D Cube:</strong> Tests hard-surface 90° edge continuity and corner seam alignment.</li>
+            <li><strong>3D Column:</strong> Validates cylindrical wrapping for architectural pillars, pipes, and trunks.
+            </li>
+            <li><strong>3D Drape:</strong> Inspects soft organic fabric folds, cloth textiles, curtains, and banners.
+            </li>
+            <li><strong>150mm Architectural Room:</strong> An accurate L-shaped double interior corner wall (150mm
+              thickness, chamfered ends, neutral floor) to preview wallpaper, plaster, tiles, and concrete.</li>
+            <li><strong>2D Seamless Wall:</strong> A full planar view simulating a seamless flat wall surface.</li>
+          </ul>
+        </section>
+
+        <section class="guide-section">
+          <h3>Photoshop-Style Proportional Scaling</h3>
+          <p>
+            Control texture frequency with Photoshop-accurate aspect-ratio locking:
+          </p>
+          <ul class="guide-features-list">
+            <li><strong>Linked (Proportional):</strong> Displays a single <em>Tile Scale</em> slider. Both width and
+              height scale harmoniously in tandem, preserving natural pixel aspect ratios.</li>
+            <li><strong>Unlinked (Independent):</strong> Splits into independent <em>Width</em> and <em>Height</em>
+              sliders for custom anisotropic compression or stretching.</li>
+          </ul>
+        </section>
+
+        <section class="guide-section">
+          <h3>Workflow Integration: Blender, Unreal Engine 5, Unity & Figma</h3>
+          <p>
+            Once your tile is dialed in:
+          </p>
+          <ul class="guide-features-list">
+            <li><strong>Download Texture:</strong> Saves the processed high-resolution JPEG directly into your downloads
+              folder.</li>
+            <li><strong>Copy to Clipboard:</strong> Direct raster copy ready to paste immediately into Figma, Photoshop,
+              Illustrator, or Canva.</li>
+            <li><strong>3D Snap:</strong> Takes a pristine, high-resolution viewport render of your chosen 3D model on
+              the studio cyclorama.</li>
+            <li><strong>Blender / Unreal Import:</strong> Drop the downloaded texture directly into your Principled BSDF
+              or Material Graph as your Base Color (Albedo) map.</li>
+          </ul>
+        </section>
+
+        <section class="guide-section">
+          <h3>Frequently Asked Questions (FAQ)</h3>
+          <div class="guide-faq-item">
+            <h4>Is Texture reCreator 100% free and private?</h4>
+            <p>Yes. Texture reCreator runs 100% client-side inside your browser via HTML5 Canvas and WebGL. Your
+              uploaded textures, photos, and files are never sent to or stored on any remote server.</p>
+          </div>
+          <div class="guide-faq-item">
+            <h4>How do I create a seamless texture online for free?</h4>
+            <p>Drag and drop any image into the workspace, select <strong>4-Way Mirror</strong> tiling pattern, and
+              adjust the scale slider until satisfied. Click <strong>Download Texture</strong> to save the seamless
+              result.</p>
+          </div>
+          <div class="guide-faq-item">
+            <h4>What is the difference between standard tiling and 4-way mirror tiling?</h4>
+            <p>Standard tiling repeats the texture in a direct grid, creating hard visible seams if the source image is
+              not pre-seamless. 4-Way Mirror inverts alternating rows and columns so edge borders blend seamlessly with
+              zero visible seam artifacts.</p>
+          </div>
+          <div class="guide-faq-item">
+            <h4>How do I inspect bump and normal depth?</h4>
+            <p>Adjust the <strong>Surface Relief (Bump)</strong> slider in the sidebar. The WebGL shader computes
+              procedural luminance gradients in real time, simulating surface height and tactile roughness.</p>
+          </div>
+        </section>
+
+        <section class="guide-section">
+          <h3>Viewport Shortcuts</h3>
+          <div class="guide-shortcuts-grid">
+            <div class="shortcut-pill"><kbd>Left-Click + Drag</kbd><span>Orbit 3D Camera</span></div>
+            <div class="shortcut-pill"><kbd>Right-Click + Drag</kbd><span>Pan Camera</span></div>
+            <div class="shortcut-pill"><kbd>Scroll Wheel</kbd><span>Zoom In / Out</span></div>
+            <div class="shortcut-pill"><kbd>Esc</kbd><span>Close Guide Dialog</span></div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="guide-modal-footer">
+        <button type="button" id="closeGuideBottomBtn" class="btn-action-primary">Got it, back to Studio</button>
+      </footer>
     </div>
+  </dialog>
 
-    <!-- Hidden Canvas -->
-    <canvas id="cvs" style="display: none;"></canvas>
+  <!-- Hidden Processing Canvas -->
+  <canvas id="cvs" style="display: none;"></canvas>
 
-    <!-- Loading indicator -->
-    <div class="loading-indicator" id="loading">
-      <div class="spinner"></div>
-    </div>
+  <!-- Toast Notifications Container -->
+  <div id="toastContainer" class="toast-container"></div>
 
-    <script type="module" src="./src/main.js"></script>
-  </body>
+  <!-- Application Script Entry -->
+  <script type="module" src="./src/main.js"></script>
+</body>
+
 </html>

@@ -54,12 +54,7 @@ export function clamp(value, min, max) {
  * @returns {string} - Base path with trailing slash
  */
 export function getBasePath() {
-  // In production (GitHub Pages), use the repository name as base
-  // In development, use root
-  if (import.meta.env.MODE === 'production') {
-    return '/Texture-reCreator/';
-  }
-  return '/';
+  return '/Texture-reCreator/';
 }
 
 /**

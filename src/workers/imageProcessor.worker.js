@@ -7,14 +7,14 @@ self.addEventListener('message', function (e) {
   const { type, data } = e.data;
 
   switch (type) {
-    case 'process-image':
-      processImage(data);
-      break;
-    case 'generate-tiles':
-      generateTiles(data);
-      break;
-    default:
-      console.warn('Unknown worker task:', type);
+  case 'process-image':
+    processImage(data);
+    break;
+  case 'generate-tiles':
+    generateTiles(data);
+    break;
+  default:
+    console.warn('Unknown worker task:', type);
   }
 });
 
